@@ -404,5 +404,25 @@ class TestReviewFixes(unittest.TestCase):
         self.assertEqual(p.hp, p.max_hp)
 
 
+    def test_gate_guards_spawn_as_twins(self):
+        w = World(3, None)
+        guards = [e for e in w.entities if getattr(e, "ai_kind", "") == "guard"]
+        self.assertEqual(len(guards), 2)
+        self.assertEqual({g.name for g in guards},
+                         {"Ser Aldous", "Ser Aldric"})
+        for g in guards:
+            payload = w.npc_talk(g)
+            self.assertIn(payload["name"], ("Ser Aldous", "Ser Aldric"))
+            self.assertTrue(payload["pages"])
+
+    def test_npc_talk_delegates_to_story(self):
+        from aldervale import story
+        w = self._world()
+        elder = next(e for e in w.entities
+                     if getattr(e, "name", None) == "Elder Quill")
+        self.assertEqual(w.npc_talk(elder),
+                         story.dialogue_for("Elder Quill", w.quest))
+
+
 if __name__ == "__main__":
     unittest.main()

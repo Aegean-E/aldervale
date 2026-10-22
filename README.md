@@ -42,7 +42,8 @@ you hero. Full cycle: talk, accept, fight, loot, equip, buy, return, victory.
 That is the tale the villagers tell. The true canon - the First Fire, the
 eleven Keepers, the Captain's grief, the wyvern's vigil, and where the saga
 goes next - is written in **LORE.md**, the Chronicle of the vale. Every story
-change to the game builds on it.
+change to the game builds on it, and **ADAPTATION.md** maps every canon
+element to the exact file that owns it.
 
 ## Controls
 
@@ -89,6 +90,7 @@ aldervale/
 │   ├── render.py       <- sky, sun, clouds, voxel terrain, billboards
 │   ├── entities.py     <- actors, props, pickups, AI state machines
 │   ├── rules.py        <- items, damage, XP, inventory (pure functions)
+│   ├── story.py        <- the Chronicle as data: cast, dialogue, quests
 │   ├── world.py        <- generation, quests, dialogue, shops, saves
 │   ├── hud.py          <- bars, minimap, menus, dialogue, title art
 │   └── game.py         <- game states, camera, main loop, demo autopilot
@@ -97,6 +99,7 @@ aldervale/
 │   ├── test_aldervale.py    <- unit tier: pure engine core (fast)
 │   └── test_integration.py  <- world gen, quest chain, rendering, CLI
 ├── LORE.md             <- the canon: world, history, characters, open threads
+├── ADAPTATION.md       <- canon to code: where story changes go and why
 ├── .aikit/             <- this project's memory: record, ledger, decisions
 ├── .gitignore
 └── README.md

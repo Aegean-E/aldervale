@@ -300,5 +300,62 @@ class TestReviewRegressions(unittest.TestCase):
         self.assertLessEqual(g.w, 190)
 
 
+class TestStoryData(unittest.TestCase):
+    """The story module is the single source of narrative truth."""
+
+    def test_cast_entries_are_complete(self):
+        from aldervale.story import CAST
+        for key, entry in CAST.items():
+            if isinstance(entry, tuple):
+                for member in entry:
+                    self.assertIn("name", member)
+                    self.assertIn("model", member)
+            else:
+                self.assertIn("name", entry)
+                self.assertIn("model", entry)
+
+    def test_gate_guards_are_the_twins(self):
+        from aldervale.story import CAST
+        names = {g["name"] for g in CAST["guards"]}
+        self.assertEqual(names, {"Ser Aldous", "Ser Aldric"})
+
+    def test_dialogue_for_every_villager(self):
+        from aldervale.story import CAST, dialogue_for
+        for villager in CAST["villagers"]:
+            payload = dialogue_for(villager["name"], "none")
+            self.assertEqual(payload["name"], villager["name"])
+            self.assertTrue(payload["pages"])
+            self.assertIn(("Farewell", "close"), payload["choices"])
+
+    def test_elder_dialogue_covers_quest_states(self):
+        from aldervale.story import dialogue_for
+        for state in ("none", "active", "return", "done"):
+            payload = dialogue_for("Elder Quill", state)
+            self.assertTrue(payload["pages"])
+        offered = dialogue_for("Elder Quill", "none")
+        self.assertIn("quest_accept", [a for _, a in offered["choices"]])
+        returned = dialogue_for("Elder Quill", "return")
+        self.assertIn("quest_complete", [a for _, a in returned["choices"]])
+
+    def test_quest_objectives_cover_states(self):
+        from aldervale.story import QUEST_OBJECTIVES
+        self.assertEqual(set(QUEST_OBJECTIVES),
+                         {"none", "active", "return", "done"})
+        for text in QUEST_OBJECTIVES.values():
+            self.assertTrue(text)
+
+    def test_guard_dialogue_carries_twin_name(self):
+        from aldervale.story import guard_dialogue
+        payload = guard_dialogue("Ser Aldous")
+        self.assertEqual(payload["name"], "Ser Aldous")
+        self.assertTrue(payload["pages"])
+
+    def test_player_name_single_source(self):
+        from aldervale.entities import Player
+        from aldervale.story import CAST
+        self.assertEqual(Player("player", 0.0, 0.0).name,
+                         CAST["player"]["name"])
+
+
 if __name__ == "__main__":
     unittest.main()

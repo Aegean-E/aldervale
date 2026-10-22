@@ -2,6 +2,8 @@
 
 import math
 
+from .story import CAST
+
 
 class Entity:
     """Anything the renderer draws as a billboard."""
@@ -130,7 +132,7 @@ class Player(Actor):
         super().__init__(eid, "knight", x, z, 1.95, kind="player", hp=46,
                          atk=6, dfn=1, speed=3.8, xp_reward=0, aggro_r=0.0,
                          attack_range=2.0, attack_dmg=0, home_r=0.0,
-                         ai_kind="player", name="Ser Alaric")
+                         ai_kind="player", name=CAST["player"]["name"])
         from .rules import Inventory
         self.inventory = Inventory()
         self.attack_t = -1.0

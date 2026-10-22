@@ -6,11 +6,11 @@
 ---
 
 ## 📊 Codebase Metrics
-- **Total Python Modules**: `19`
-- **Total Classes**: `38`
-- **Total Top-Level Functions**: `102`
-- **Total Class Methods**: `196`
-- **Total Source Lines**: `5331`
+- **Total Python Modules**: `20`
+- **Total Classes**: `39`
+- **Total Top-Level Functions**: `104`
+- **Total Class Methods**: `204`
+- **Total Source Lines**: `5493`
 
 ---
 
@@ -88,7 +88,7 @@
 ### [`aldervale/entities.py`](aldervale/entities.py)
 > *World entities: props, pickups, ambient life and AI-driven actors.*
 
-**Size**: `308` lines (`10868` bytes)
+**Size**: `310` lines (`10903` bytes)
 
 **Classes:**
 - `class Entity` - *Anything the renderer draws as a billboard.*
@@ -333,6 +333,17 @@
 
 ---
 
+### [`aldervale/story.py`](aldervale/story.py)
+> *Story data: the Chronicle's cast, dialogue and quest text as pure data.*
+
+**Size**: `170` lines (`5755` bytes)
+
+**Functions:**
+- `def dialogue_for(name, quest_state)` - *Dialogue payload for a named speaker at the given quest state.*
+- `def guard_dialogue(name)` - *Dialogue payload for a gate guard, carrying the twin's own name.*
+
+---
+
 ### [`aldervale/term.py`](aldervale/term.py)
 > *Terminal control: VT100 setup, non-blocking key input and frame output.*
 
@@ -385,7 +396,7 @@
 ### [`aldervale/world.py`](aldervale/world.py)
 > *The world of Aldervale: generation, simulation, quests and persistence.*
 
-**Size**: `759` lines (`32217` bytes)
+**Size**: `672` lines (`28550` bytes)
 
 **Classes:**
 - `class World` - *Owns terrain, entities, the player, quests and the world clock.*
@@ -410,7 +421,6 @@
   - Method `.respawn_player()`
   - Method `.interact_target()` - *Nearest interactable entity in front of the player.*
   - Method `.npc_talk(npc)` - *Build the dialogue payload for an NPC based on quest state.*
-  - Method `._elder_talk()`
   - Method `.npc_choice(action)`
   - Method `.pickup_item(pickup)`
   - Method `.open_chest(chest)`
@@ -430,7 +440,7 @@
 ### [`tests/test_aldervale.py`](tests/test_aldervale.py)
 > *Unit tier: fast in-process checks for the pure engine core.*
 
-**Size**: `304` lines (`10581` bytes)
+**Size**: `361` lines (`13012` bytes)
 
 **Classes:**
 - `class FakeTerm`
@@ -478,13 +488,21 @@
   - Method `.test_pack_rgb_clamps_channels()`
   - Method `.test_water_fog_reaches_fog_colour()`
   - Method `.test_terminal_min_width_clamped()`
+- `class TestStoryData` - *The story module is the single source of narrative truth.*
+  - Method `.test_cast_entries_are_complete()`
+  - Method `.test_gate_guards_are_the_twins()`
+  - Method `.test_dialogue_for_every_villager()`
+  - Method `.test_elder_dialogue_covers_quest_states()`
+  - Method `.test_quest_objectives_cover_states()`
+  - Method `.test_guard_dialogue_carries_twin_name()`
+  - Method `.test_player_name_single_source()`
 
 ---
 
 ### [`tests/test_integration.py`](tests/test_integration.py)
 > *Integration tier: world generation, quest chain, rendering and the CLI.*
 
-**Size**: `408` lines (`14174` bytes)
+**Size**: `428` lines (`14992` bytes)
 
 **Classes:**
 - `class TestTerrain`
@@ -528,6 +546,8 @@
   - Method `.test_gold_pickups_collected_same_frame()`
   - Method `.test_hud_bars_do_not_overlap()`
   - Method `.test_death_transitions_to_dead_state()`
+  - Method `.test_gate_guards_spawn_as_twins()`
+  - Method `.test_npc_talk_delegates_to_story()`
 
 **Functions:**
 - `def _tiny_atlas()`

@@ -7,6 +7,7 @@ import random
 from pathlib import Path
 
 from . import entities as ent
+from . import story
 from .buffer import pack_rgb
 from .rules import (ITEMS, Inventory, damage_roll, xp_for_level)
 from .terrain import Terrain
@@ -18,8 +19,6 @@ HEAL_COLOR = pack_rgb(120, 220, 130)
 INFO_COLOR = pack_rgb(200, 210, 230)
 XP_COLOR = pack_rgb(150, 190, 255)
 QUEST_COLOR = pack_rgb(240, 210, 120)
-
-VILLAGER_NAMES = ("Mira of the Mill", "Old Tam", "Wren the Herder")
 
 
 class World:
@@ -141,12 +140,12 @@ class World:
         for i in range(3):
             px, pz = self._walkable_near(vx + rng.uniform(-12, 12),
                                          vz + rng.uniform(-10, 10))
-            self._add(ent.Actor(self._next_eid(), "peasant%d" % i, px, pz,
-                                1.8, kind="villager", hp=25, atk=2, dfn=0,
-                                speed=1.4, xp_reward=0, aggro_r=0,
+            self._add(ent.Actor(self._next_eid(), story.CAST["villagers"][i]["model"],
+                                px, pz, 1.8, kind="villager", hp=25, atk=2,
+                                dfn=0, speed=1.4, xp_reward=0, aggro_r=0,
                                 attack_range=0, attack_dmg=0,
                                 ai_kind="villager",
-                                name=VILLAGER_NAMES[i]))
+                                name=story.VILLAGER_NAMES[i]))
         for i in range(4):
             px, pz = self._walkable_near(vx + rng.uniform(-8, 8),
                                          vz + rng.uniform(-6, 8))
@@ -162,12 +161,13 @@ class World:
     def _spawn_castle(self, kx, kz):
         self._add(ent.Prop(self._next_eid(), "castle", kx, kz, 14.0,
                            solid=True, radius=13.0, name="Aldercastle"))
-        for sx in (-1.0, 1.0):
-            guard = ent.Actor(self._next_eid(), "guard", kx + sx * 5.2,
+        for i, guard_spec in enumerate(story.CAST["guards"]):
+            guard = ent.Actor(self._next_eid(), guard_spec["model"],
+                              kx + (-1.0 if i == 0 else 1.0) * 5.2,
                               kz + 14.0, 2.05, kind="guard", hp=60, atk=8,
                               dfn=4, speed=2.0, xp_reward=0, aggro_r=0,
                               attack_range=0, attack_dmg=0, ai_kind="guard",
-                              name="Gate Guard")
+                              name=guard_spec["name"])
             guard.yaw = 0.0
             self._add(guard)
         for sx, sz in ((-1, 1), (1, 1)):
@@ -527,90 +527,9 @@ class World:
 
     def npc_talk(self, npc):
         """Build the dialogue payload for an NPC based on quest state."""
-        if npc.name == "Elder Quill":
-            return self._elder_talk()
-        if npc.name == "Bram the Smith":
-            return {
-                "name": npc.name,
-                "pages": [
-                    "Bram wipes soot from his brow. 'Steel keeps the vale "
-                    "standing, ser. Buy something before the dead do.'",
-                ],
-                "choices": [("Browse wares", "shop"), ("Farewell", "close")],
-            }
         if npc.ai_kind == "guard":
-            return {
-                "name": npc.name or "Gate Guard",
-                "pages": [
-                    "'Halt! ...Ah, a villager. Mind the east road, ser. "
-                    "The old camp stirs at night.'",
-                    "'The Captain wears our lord's stolen crown. No blade "
-                    "here has the reach for him.'",
-                ],
-                "choices": [("Farewell", "close")],
-            }
-        pages = {
-            "Mira of the Mill": [
-                "'The wolves grow bold since the fires went out in the east "
-                "camp, ser.'",
-                "'Elder Quill has been praying at the shrine for a champion. "
-                "Perhaps... you?'",
-            ],
-            "Old Tam": [
-                "'I remember when the Suncrest hung above the hearth. The "
-                "vale was warm then.'",
-                "'The Bone Captain keeps it now, they say, deep in the old "
-                "camp.'",
-            ],
-            "Wren the Herder": [
-                "'My chickens fret when the wyvern circles. So do I, if I'm "
-                "honest.'",
-                "'Gold buys Bram's steel. Steel buys tomorrow.'",
-            ],
-        }.get(npc.name, ["'Fine weather for the vale, ser.'"])
-        return {"name": npc.name, "pages": pages,
-                "choices": [("Farewell", "close")]}
-
-    def _elder_talk(self):
-        if self.quest == "none":
-            return {
-                "name": "Elder Quill",
-                "pages": [
-                    "The elder leans on his glowing staff. 'Ser Alaric. The "
-                    "Suncrest Amulet, heart of our vale, was stolen by the "
-                    "Bone Captain.'",
-                    "'His camp squats in the eastern woods. Slay him, bring "
-                    "the amulet home, and Aldervale will never forget you.'",
-                ],
-                "choices": [("I will bring it home.", "quest_accept"),
-                            ("I need to think.", "close")],
-            }
-        if self.quest == "active":
-            return {
-                "name": "Elder Quill",
-                "pages": [
-                    "'The Captain's camp lies east, past the wolves. Keep "
-                    "your blade sharp and your blood in.'",
-                ],
-                "choices": [("Farewell", "close")],
-            }
-        if self.quest == "return":
-            return {
-                "name": "Elder Quill",
-                "pages": [
-                    "The elder's eyes shine as you hold up the Suncrest "
-                    "Amulet. 'Blessed be this day!'",
-                    "'Aldervale owes you a hero's debt. Take this gold, and "
-                    "our gratitude, forever.'",
-                ],
-                "choices": [("Return the amulet.", "quest_complete")],
-            }
-        return {
-            "name": "Elder Quill",
-            "pages": ["'The vale is warm again, thanks to you. Rest, hero of "
-                      "Aldervale.'"],
-            "choices": [("Farewell", "close")],
-        }
+            return story.guard_dialogue(npc.name)
+        return story.dialogue_for(npc.name, self.quest)
 
     def npc_choice(self, action):
         if action == "quest_accept":
@@ -686,13 +605,7 @@ class World:
         return True
 
     def quest_objective(self):
-        if self.quest == "active":
-            return "Slay the Bone Captain at the old camp (east)"
-        if self.quest == "return":
-            return "Return the Suncrest Amulet to Elder Quill"
-        if self.quest == "done":
-            return "The vale is at peace - roam on"
-        return "Speak with Elder Quill in the village (north of the well)"
+        return story.QUEST_OBJECTIVES[self.quest]
 
     def save(self, path):
         """Persist world state atomically (temp file, fsync, replace)."""
