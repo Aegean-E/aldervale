@@ -39,6 +39,11 @@ the village shrine; Bram hammers steel at his forge; wolves and worse patrol
 the trees. Slay the Captain, bring the amulet home, and Aldervale will call
 you hero. Full cycle: talk, accept, fight, loot, equip, buy, return, victory.
 
+That is the tale the villagers tell. The true canon - the First Fire, the
+eleven Keepers, the Captain's grief, the wyvern's vigil, and where the saga
+goes next - is written in **LORE.md**, the Chronicle of the vale. Every story
+change to the game builds on it.
+
 ## Controls
 
 | Key | Action |
@@ -71,6 +76,7 @@ Exit codes: 0 success, 1 failure (What/Why/Fix on stderr), 2 misuse.
 ```text
 aldervale/
 ├── aldervale/
+│   ├── __init__.py       <- package marker and version
 │   ├── __main__.py     <- CLI: demo, benchmark, screenshot, error triads
 │   ├── term.py         <- VT100 terminal control, non-blocking key input
 │   ├── buffer.py       <- char-cell screen: colour, depth, diff flush
@@ -87,8 +93,10 @@ aldervale/
 │   ├── hud.py          <- bars, minimap, menus, dialogue, title art
 │   └── game.py         <- game states, camera, main loop, demo autopilot
 ├── tests/
+│   ├── __init__.py          <- test package marker
 │   ├── test_aldervale.py    <- unit tier: pure engine core (fast)
 │   └── test_integration.py  <- world gen, quest chain, rendering, CLI
+├── LORE.md             <- the canon: world, history, characters, open threads
 ├── .aikit/             <- this project's memory: record, ledger, decisions
 ├── .gitignore
 └── README.md
