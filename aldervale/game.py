@@ -177,16 +177,39 @@ class Game:
     def _handle_keys(self):
         if self.term is None:
             return
-        key = self.term.read_key()
-        if key is None:
-            if self.state == "play":
-                self._movement(0.0, 0.0, False)
+        pressed, held = self.term.poll()
+        if pressed:
+            start_state = self.state
+            for key in pressed:
+                handler = getattr(self, "_key_%s" % self.state, None)
+                if handler:
+                    handler(key)
+                if self.state != start_state:
+                    break
+        if self.state == "play":
+            self._apply_movement_held(held)
+
+    def _apply_movement_held(self, held):
+        """Continuous movement, turning and sprint from held key tokens."""
+        p = self.world.player
+        if p.dead or p.attacking:
+            p.moving = False
             return
-        handler = getattr(self, "_key_%s" % self.state, None)
-        if handler:
-            handler(key)
-        while self.term.read_key() is not None:
-            pass
+        fwd = 0.0
+        side = 0.0
+        if "w" in held or "up" in held:
+            fwd += 1.0
+        if "s" in held or "down" in held:
+            fwd -= 1.0
+        if "d" in held:
+            side += 1.0
+        if "a" in held:
+            side -= 1.0
+        if "left" in held:
+            self.cam_yaw -= 2.2 * self._dt
+        if "right" in held:
+            self.cam_yaw += 2.2 * self._dt
+        self._movement(fwd, side, "shift" in held)
 
     def _movement(self, fwd, side, sprint):
         p = self.world.player
@@ -283,25 +306,13 @@ class Game:
         if key == "m":
             self.show_map = not self.show_map
             return
-        if key == " ":
+        if key == "space":
             self._try_attack()
             return
-        if key == "e":
+        if key in ("e", "enter"):
             self._try_interact()
             return
-        if key in ("q", "left"):
-            self.cam_yaw -= 0.14
-            return
-        if key in ("r", "right"):
-            self.cam_yaw += 0.14
-            return
-        if key == "up":
-            self.cam_dist = max(4.0, self.cam_dist - 0.7)
-            return
-        if key == "down":
-            self.cam_dist = min(13.0, self.cam_dist + 0.7)
-            return
-        if key == "+" or key == "=":
+        if key in ("+", "="):
             self.cam_dist = max(4.0, self.cam_dist - 0.7)
             return
         if key == "-":
@@ -334,7 +345,7 @@ class Game:
             self.state = "play"
             return
         if self.dlg_page < n_pages - 1:
-            if key in (" ", "enter"):
+            if key in ("space", "enter"):
                 self.dlg_page += 1
             return
         choices = dlg["choices"]
@@ -342,7 +353,7 @@ class Game:
             self.dlg_choice = (self.dlg_choice - 1) % len(choices)
         elif key in ("down", "s"):
             self.dlg_choice = (self.dlg_choice + 1) % len(choices)
-        elif key in (" ", "enter"):
+        elif key in ("space", "enter"):
             label, action = choices[self.dlg_choice]
             if action == "shop":
                 self.state = "shop"
@@ -377,7 +388,7 @@ class Game:
                 self.shop_sel = (self.shop_sel - 1) % n
             elif key in ("down", "s"):
                 self.shop_sel = (self.shop_sel + 1) % n
-            elif key in (" ", "enter"):
+            elif key in ("space", "enter"):
                 item_id = SHOP_STOCK[self.shop_sel]
                 if w.buy(item_id):
                     self.shop_message = "Bought %s." % ITEMS[item_id].name
@@ -394,7 +405,7 @@ class Game:
                 self.shop_sel = (self.shop_sel - 1) % n
             elif key in ("down", "s"):
                 self.shop_sel = (self.shop_sel + 1) % n
-            elif key in (" ", "enter"):
+            elif key in ("space", "enter"):
                 iid = sellables[self.shop_sel]
                 if w.sell(iid):
                     self.shop_message = "Sold %s." % ITEMS[iid].name
@@ -419,7 +430,7 @@ class Game:
             self.menu_sel = (self.menu_sel - 1) % 4
         elif key in ("down", "s"):
             self.menu_sel = (self.menu_sel + 1) % 4
-        elif key in (" ", "enter"):
+        elif key in ("space", "enter"):
             if self.menu_sel == 0:
                 self.state = "play"
             elif self.menu_sel == 1:

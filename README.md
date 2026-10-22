@@ -54,14 +54,16 @@ element to the exact file that owns it.
 
 | Key | Action |
 |---|---|
-| W A S D | walk (hold Shift to sprint) |
-| Arrows or Q E | orbit the camera |
-| + / - | zoom the camera |
+| W S or Up Down | walk forward / back |
+| A D | sidestep left / right |
+| Left / Right | turn the camera |
+| Hold Shift | sprint (drains stamina) |
 | SPACE | swing your sword |
-| E | talk / open chest / pick up / pray at shrine |
+| E or Enter | talk / open chest / pick up / pray at shrine |
 | I | inventory (U use potion, E equip best) |
 | M | toggle minimap |
 | H or F1 | help |
+| + / - | zoom the camera |
 | ESC | pause (save & quit from there) |
 
 ## Command Line

@@ -7,10 +7,10 @@
 
 ## 📊 Codebase Metrics
 - **Total Python Modules**: `20`
-- **Total Classes**: `40`
-- **Total Top-Level Functions**: `104`
-- **Total Class Methods**: `208`
-- **Total Source Lines**: `5532`
+- **Total Classes**: `42`
+- **Total Top-Level Functions**: `105`
+- **Total Class Methods**: `222`
+- **Total Source Lines**: `5761`
 
 ---
 
@@ -120,7 +120,7 @@
 ### [`aldervale/game.py`](aldervale/game.py)
 > *Game shell: states, input, camera, main loop, demo autopilot.*
 
-**Size**: `468` lines (`16345` bytes)
+**Size**: `479` lines (`16756` bytes)
 
 **Classes:**
 - `class Game` - *Drives one play session from title screen to victory.*
@@ -135,6 +135,7 @@
   - Method `._poll_resize()`
   - Method `._demo_steer(dt)`
   - Method `._handle_keys()`
+  - Method `._apply_movement_held(held)` - *Continuous movement, turning and sprint from held key tokens.*
   - Method `._movement(fwd, side, sprint)`
   - Method `._try_attack()`
   - Method `._try_interact()`
@@ -155,7 +156,7 @@
 ### [`aldervale/hud.py`](aldervale/hud.py)
 > *HUD and menu rendering: bars, minimap, dialogue, shop, inventory, titles.*
 
-**Size**: `367` lines (`14427` bytes)
+**Size**: `366` lines (`14422` bytes)
 
 **Classes:**
 - `class ItemStub`
@@ -289,7 +290,7 @@
 ### [`aldervale/render.py`](aldervale/render.py)
 > *Scene renderer: animated sky, voxel-marched terrain and billboard sprites.*
 
-**Size**: `419` lines (`14984` bytes)
+**Size**: `420` lines (`15032` bytes)
 
 **Classes:**
 - `class Camera` - *View parameters plus precomputed per-column ray angles.*
@@ -345,24 +346,29 @@
 ---
 
 ### [`aldervale/term.py`](aldervale/term.py)
-> *Terminal control: VT100 setup, non-blocking key input and frame output.*
+> *Terminal control: VT100 setup, polled key input and frame output.*
 
-**Size**: `202` lines (`6140` bytes)
+**Size**: `327` lines (`10941` bytes)
 
 **Classes:**
 - `class TerminalError` - *Raised when the terminal cannot render the game at all.*
-- `class Terminal` - *Raw-mode ANSI terminal wrapper with non-blocking key reads.*
+- `class Terminal` - *Raw-mode ANSI terminal wrapper with polled held-key input.*
   - Method `.__init__(color, use_alt_screen)`
   - Method `.__enter__()`
   - Method `.__exit__(*exc)`
   - Method `.start()`
   - Method `._open_windows()`
+  - Method `._init_win_input()`
   - Method `.close()`
   - Method `.size()`
+  - Method `.poll()` - *Return (pressed, held): new key tokens and currently held ones.*
   - Method `.write(text)`
   - Method `.flush()`
   - Method `.set_title(title)`
   - Method `.read_key()` - *Return one normalized key token or None; never blocks.*
+
+**Functions:**
+- `def vk_token(vk, ch)` - *Map a Windows virtual-key code to a game key token, or None.*
 
 ---
 
@@ -502,7 +508,7 @@
 ### [`tests/test_integration.py`](tests/test_integration.py)
 > *Integration tier: world generation, quest chain, rendering and the CLI.*
 
-**Size**: `467` lines (`16687` bytes)
+**Size**: `560` lines (`19153` bytes)
 
 **Classes:**
 - `class TestTerrain`
@@ -553,6 +559,19 @@
   - Method `.test_run_sh_targets_module()`
   - Method `.test_play_bat_wt_directory_has_no_trailing_backslash()`
   - Method `.test_vscode_launch_configs()`
+- `class TestHeldControls` - *Movement must respond to held keys polled every frame.*
+  - Method `.setUpClass()`
+  - Method `._tick(held, n)`
+  - Method `.test_w_moves_player_forward()`
+  - Method `.test_arrow_up_moves_and_left_turns()`
+  - Method `.test_a_d_strafe()`
+  - Method `.test_shift_sprints()`
+  - Method `.test_space_press_attacks()`
+- `class FakePollTerm`
+  - Method `.__init__()`
+  - Method `.queue_press(keys)`
+  - Method `.poll()`
+  - Method `.size()`
 
 **Functions:**
 - `def _tiny_atlas()`

@@ -463,5 +463,98 @@ class TestLaunchers(unittest.TestCase):
             self.assertEqual(cfg["cwd"], "${workspaceFolder}")
 
 
+class TestHeldControls(unittest.TestCase):
+    """Movement must respond to held keys polled every frame."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.game = Game(seed=3, terrain_size=SMALL, width=80, height=40)
+        cls.game.term = FakePollTerm()
+        cls.game.atlas = _tiny_atlas()
+        cls.game.world = World(3, cls.game.atlas, terrain_size=SMALL)
+        cls.game._open_screen()
+        cls.game._ensure_camera()
+        cls.game.state = "play"
+        cls.game._dt = 1.0 / 30.0
+
+    def _tick(self, held, n=6):
+        g = self.game
+        g.term.held = set(held)
+        g.world.player.attack_t = -1.0
+        env = Env(g.world.day_t, 0.0)
+        for _ in range(n):
+            g._handle_keys()
+            g.world.update(g._dt, env)
+
+    def test_w_moves_player_forward(self):
+        g = self.game
+        p = g.world.player
+        g.cam_yaw = math.pi
+        z0 = p.z
+        self._tick({"w"})
+        self.assertLess(p.z, z0 - 0.4)
+
+    def test_arrow_up_moves_and_left_turns(self):
+        g = self.game
+        p = g.world.player
+        g.cam_yaw = math.pi
+        z0 = p.z
+        self._tick({"up"})
+        self.assertLess(p.z, z0 - 0.4)
+        yaw0 = g.cam_yaw
+        self._tick({"left"})
+        self.assertLess(g.cam_yaw, yaw0)
+
+    def test_a_d_strafe(self):
+        g = self.game
+        p = g.world.player
+        g.cam_yaw = math.pi
+        x0 = p.x
+        self._tick({"a"})
+        self.assertGreater(p.x, x0 + 0.3)
+        x1 = p.x
+        self._tick({"d"})
+        self.assertLess(p.x, x1 - 0.3)
+
+    def test_shift_sprints(self):
+        g = self.game
+        p = g.world.player
+        g.cam_yaw = math.pi
+        z0 = p.z
+        self._tick({"w"}, n=10)
+        walk = z0 - p.z
+        p.stamina = 100.0
+        z1 = p.z
+        self._tick({"w", "shift"}, n=10)
+        sprint = z1 - p.z
+        self.assertGreater(sprint, walk * 1.2)
+
+    def test_space_press_attacks(self):
+        g = self.game
+        p = g.world.player
+        p.attack_t = -1.0
+        p.stamina = 100.0
+        g.term.queue_press(["space"])
+        g._handle_keys()
+        self.assertTrue(p.attacking)
+
+
+class FakePollTerm:
+    def __init__(self):
+        self.held = set()
+        self._presses = []
+
+    def queue_press(self, keys):
+        self._presses = list(keys)
+
+    def poll(self):
+        pressed = self._presses
+        self._presses = []
+        return pressed, set(self.held)
+
+    def size(self):
+        return (80, 40)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,46 +1,20 @@
 {
   "version": 1,
   "active_task": {
-    "task_id": "aldervale-launch-fix-v1",
+    "task_id": "aldervale-input-v1",
     "last_phase": "implementation",
     "active_phase": 5,
     "status": "completed",
-    "updated_at": 1792672976.9611251,
+    "updated_at": 1792676237.9877021,
     "impact_assessment": {
-      "why": "User hit error 0x8007010b: the -d directory argument ended in a backslash-quote that escaped under CommandLineToArgvW parsing",
-      "benefits": "Double-click launch works in Windows Terminal; quoting hazard pinned by test so it cannot return",
-      "risks": "contract: PLAY.bat must cd before using %CD%; dependency: none new; concurrency: none; state: none",
-      "mitigation": "cd /d %~dp0 runs first in the bat; live wt probe confirmed the working directory; full suite 70/70 and gates green"
+      "why": "Holding WASD did nothing (keys were edge-dispatched to a handler with no movement branches); SPACE and menu confirms compared against a token the terminal never emits; screen-space dither crawled into noise in motion; get_terminal_size reported the scrollback buffer so rows wrapped",
+      "benefits": "Character moves continuously and smoothly, arrows are a full control scheme, sprint works, attack/confirm work, terrain texture is stable, frame size fits the viewport",
+      "risks": "contract: term.poll() replaces per-key reads for the game loop (read_key stays as POSIX primitive); dependency: ctypes structures defined lazily on Windows only; concurrency: none; state: none",
+      "mitigation": "Failing-first held-control tests, full 75-test suite, gates green, and the real PLAY.bat verified end-to-end (WindowsTerminal+cmd+python processes running the game)"
     },
-    "completed_at": 1792672977.0973983
+    "completed_at": 1792676238.1357477
   },
   "checkpoints": [
-    {
-      "task_id": "ascii-rpg-v1",
-      "phase": "planning",
-      "phase_num": 2,
-      "description": "[1/5] Renderer core: VT100 terminal layer, char-cell screen buffer with depth, low-poly 3D mesh-to-ASCII sprite baker with directional lighting, value-noise heightmap terrain",
-      "files_affected": [],
-      "status": "in_progress",
-      "timestamp": 1792617106.8834097,
-      "timestamp_str": "2026-10-22 00:11:46",
-      "impact_assessment": {
-        "why": "User wants a 2.5D medieval RPG whose ASCII cells are so small and dense they read as pixels, showing near-real models: needs a from-scratch stdlib-only renderer, not a curses demo",
-        "benefits": "A dependency-free, portable ASCII 3D engine and a playable RPG demonstrating it; every subsystem unit-testable without a TTY",
-        "risks": "contract: renderer APIs (buffer/mesh/atlas) must stay stable while gameplay layers build on them; dependency: none beyond Python 3.10 stdlib, no numpy/curses; concurrency: single-threaded game loop, non-blocking input only, no sleeps in tests; state: save files and sprite caches must be atomic and seed-deterministic",
-        "mitigation": "Keep renderer/gameplay boundaries as small frozen dataclasses and pure functions; fixed seed world gen; headless --demo and render-to-text verification baked into tests; all file writes via temp+replace"
-      }
-    },
-    {
-      "task_id": "ascii-rpg-v1",
-      "phase": "implementation",
-      "phase_num": 3,
-      "description": "[2/5] World simulation: entities with AI FSMs, spatial props, combat resolution, quests, dialogue, shops, save/load",
-      "files_affected": [],
-      "status": "in_progress",
-      "timestamp": 1792625107.4868464,
-      "timestamp_str": "2026-10-22 02:25:07"
-    },
     {
       "task_id": "ascii-rpg-v1",
       "phase": "implementation",
@@ -254,6 +228,31 @@
       "status": "completed",
       "timestamp": 1792672977.0973995,
       "timestamp_str": "2026-10-22 15:42:57"
+    },
+    {
+      "task_id": "aldervale-input-v1",
+      "phase": "implementation",
+      "phase_num": 3,
+      "description": "[1/1] Fix dead controls and messy graphics: held-key polling via ReadConsoleInputW (true keydown/keyup, Shift sprint), arrows walk/turn, space-token mismatch fixed (attack and menu confirms were dead), viewport-accurate terminal size, world-anchored terrain dither, calmer sky; PLAY.bat drops the start layer; 5 held-control tests; 75/75; gates 4/4; checklists: passed",
+      "files_affected": [],
+      "status": "in_progress",
+      "timestamp": 1792676237.9877021,
+      "timestamp_str": "2026-10-22 16:37:17",
+      "impact_assessment": {
+        "why": "Holding WASD did nothing (keys were edge-dispatched to a handler with no movement branches); SPACE and menu confirms compared against a token the terminal never emits; screen-space dither crawled into noise in motion; get_terminal_size reported the scrollback buffer so rows wrapped",
+        "benefits": "Character moves continuously and smoothly, arrows are a full control scheme, sprint works, attack/confirm work, terrain texture is stable, frame size fits the viewport",
+        "risks": "contract: term.poll() replaces per-key reads for the game loop (read_key stays as POSIX primitive); dependency: ctypes structures defined lazily on Windows only; concurrency: none; state: none",
+        "mitigation": "Failing-first held-control tests, full 75-test suite, gates green, and the real PLAY.bat verified end-to-end (WindowsTerminal+cmd+python processes running the game)"
+      }
+    },
+    {
+      "task_id": "aldervale-input-v1",
+      "phase": "completed",
+      "phase_num": 5,
+      "description": "Task 'aldervale-input-v1' completed successfully.",
+      "status": "completed",
+      "timestamp": 1792676238.135749,
+      "timestamp_str": "2026-10-22 16:37:18"
     }
   ]
 }

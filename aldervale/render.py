@@ -141,7 +141,7 @@ def _sky(screen, cam, env):
         frow = fg[y]
         drow = depth[y]
         tt = y / rows
-        fill = 0.30 + 0.52 * (1.0 - tt)
+        fill = 0.20 + 0.42 * (1.0 - tt)
         fill2 = fill * 0.5
         for x in range(w):
             v = (x * 53 + y * 131 + ((x >> 2) * 29)) & 255
@@ -311,9 +311,10 @@ def _terrain(screen, ter, cam, env):
                         chs = (RAMP[ci], RAMP[ca], RAMP[cb], RAMP[ci])
                 crow0, crow1, crow2, crow3 = chs
                 frow = fg
+                seg = (int(wx) * 196613 ^ int(wz) * 30103) & 3
                 for y in range(py, hidden):
                     depth[y][x] = z
-                    m = (x * 196613 ^ y * 30103) & 3
+                    m = (seg ^ y) & 3
                     if m == 0:
                         chars[y][x] = crow0
                     elif m == 1:
