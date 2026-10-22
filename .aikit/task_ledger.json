@@ -1,18 +1,18 @@
 {
   "version": 1,
   "active_task": {
-    "task_id": "ascii-rpg-review-v1",
+    "task_id": "aldervale-launch-fix-v1",
     "last_phase": "implementation",
     "active_phase": 5,
     "status": "completed",
-    "updated_at": 1792648578.1004975,
+    "updated_at": 1792672976.9611251,
     "impact_assessment": {
-      "why": "Review of the fresh renderer/gameplay code found six objective defects shipped by the initial build",
-      "benefits": "Distant water fogs correctly, no channel overflow at dusk, same-frame gold collection, readable HUD, proper death state machine, narrow-terminal safety",
-      "risks": "contract: pack_rgb now clamps (callers may rely on wrap? none do); dependency: none; concurrency: none, single-threaded loop; state: save format untouched",
-      "mitigation": "Failing-first tests pin each fix; full 57-test suite and aikit gates re-run green"
+      "why": "User hit error 0x8007010b: the -d directory argument ended in a backslash-quote that escaped under CommandLineToArgvW parsing",
+      "benefits": "Double-click launch works in Windows Terminal; quoting hazard pinned by test so it cannot return",
+      "risks": "contract: PLAY.bat must cd before using %CD%; dependency: none new; concurrency: none; state: none",
+      "mitigation": "cd /d %~dp0 runs first in the bat; live wt probe confirmed the working directory; full suite 70/70 and gates green"
     },
-    "completed_at": 1792648578.2319462
+    "completed_at": 1792672977.0973983
   },
   "checkpoints": [
     {
@@ -104,6 +104,156 @@
       "status": "completed",
       "timestamp": 1792648578.2319474,
       "timestamp_str": "2026-10-22 08:56:18"
+    },
+    {
+      "task_id": "aldervale-lore-v1",
+      "phase": "implementation",
+      "phase_num": 3,
+      "description": "[1/1] Add LORE.md canon (Chronicle of the vale) and link it from README; gates 4/4; checklists: passed",
+      "files_affected": [],
+      "status": "in_progress",
+      "timestamp": 1792650600.4493144,
+      "timestamp_str": "2026-10-22 09:30:00",
+      "impact_assessment": {
+        "why": "The project needs a canonical story foundation that all future narrative changes build upon, fitting the existing game elements",
+        "benefits": "Compelling canon: cosmology, six ages, sympathetic antagonist, character backstories, mystery hooks for five future acts, and a canon mapping table anchoring every in-game element",
+        "risks": "contract: lore must not contradict existing in-game dialogue; dependency: none; concurrency: none; state: docs only, no runtime change",
+        "mitigation": "Every canon claim cross-checked against existing NPC lines and mechanics; mapping table documents the correspondence"
+      }
+    },
+    {
+      "task_id": "aldervale-lore-v1",
+      "phase": "completed",
+      "phase_num": 5,
+      "description": "Task 'aldervale-lore-v1' completed successfully.",
+      "status": "completed",
+      "timestamp": 1792650600.5806744,
+      "timestamp_str": "2026-10-22 09:30:00"
+    },
+    {
+      "task_id": "aldervale-lore-v2",
+      "phase": "implementation",
+      "phase_num": 3,
+      "description": "[1/1] Deepen the Chronicle canon: seven hearths, fixed chronology, Roll of the Keepers, liturgy, bestiary, five acts, expanded cast; gates 4/4; checklists: passed",
+      "files_affected": [],
+      "status": "in_progress",
+      "timestamp": 1792656470.2058325,
+      "timestamp_str": "2026-10-22 11:07:50",
+      "impact_assessment": {
+        "why": "The canon needed depth and a consistent internal clock to support the five-act saga and all future story changes",
+        "benefits": "Complete world map of the seven hearths, eleven-entry Keeper register seeding future quests, fixed audit countdown, sympathetic villain mechanics via the choosing circlet, and act structure with promises and costs",
+        "risks": "contract: v2 rewrites v1 canon (Long Winter timing moved to year 99, circlet binds Corvin); dependency: none; concurrency: none; state: docs only",
+        "mitigation": "Chronology table now pins all dates; every game-dialogue line re-checked for consistency; canon mapping table extended"
+      }
+    },
+    {
+      "task_id": "aldervale-lore-v2",
+      "phase": "completed",
+      "phase_num": 5,
+      "description": "Task 'aldervale-lore-v2' completed successfully.",
+      "status": "completed",
+      "timestamp": 1792656470.3411677,
+      "timestamp_str": "2026-10-22 11:07:50"
+    },
+    {
+      "task_id": "aldervale-lore-v3",
+      "phase": "implementation",
+      "phase_num": 3,
+      "description": "[1/1] Chronicle third edition: six hearths in full (Hollowmere fall, Graywater, Brackle, Sarles, Saltmere), Roll of Champions, audit anatomy, artifacts, year-wheel, sayings, songs, Act II treatment; gates 4/4; checklists: passed",
+      "files_affected": [],
+      "status": "in_progress",
+      "timestamp": 1792658953.171098,
+      "timestamp_str": "2026-10-22 11:49:13",
+      "impact_assessment": {
+        "why": "The canon's referenced events (Hollowmere's fall, the Champions, the audit) were indices without accounts; the saga needed them told",
+        "benefits": "Complete account of Alaric's wound and the frost-unwrites rule, a quest-ready year-wheel and proverb bank, dialogue-ready songs, and the Act II pattern for detailing future acts",
+        "risks": "contract: v3 adds dates 353/355/390 and the Second Chronicle; dependency: none; concurrency: none; state: docs only",
+        "mitigation": "Chronology table extended consistently; Hollowmere account reconciled with all v2 references and dramatis entries"
+      }
+    },
+    {
+      "task_id": "aldervale-lore-v3",
+      "phase": "completed",
+      "phase_num": 5,
+      "description": "Task 'aldervale-lore-v3' completed successfully.",
+      "status": "completed",
+      "timestamp": 1792658953.309379,
+      "timestamp_str": "2026-10-22 11:49:13"
+    },
+    {
+      "task_id": "aldervale-story-data-v1",
+      "phase": "implementation",
+      "phase_num": 3,
+      "description": "[1/1] Extract narrative data to aldervale/story.py (cast, dialogues, quest objectives), name the gate twins from canon, add ADAPTATION.md bridge guide, 9 new tests; gates 4/4; checklists: passed",
+      "files_affected": [],
+      "status": "in_progress",
+      "timestamp": 1792660678.3262382,
+      "timestamp_str": "2026-10-22 12:17:58",
+      "impact_assessment": {
+        "why": "Story changes were buried inside world.py simulation code, making canon adaptation risky and manual",
+        "benefits": "Single source of narrative truth consumed by world/entities; canon twins now spawn by name; documented canon-to-code bridge with authoring guide, extension pattern and compliance checklist",
+        "risks": "contract: story.py payload format must stay (name/pages/choices); dependency: entities now imports story (no cycle); concurrency: none; state: save format unchanged",
+        "mitigation": "Failing-first tests pin cast, twin names, dialogue coverage and quest states; full 66-test suite and 4/4 gates green"
+      }
+    },
+    {
+      "task_id": "aldervale-story-data-v1",
+      "phase": "completed",
+      "phase_num": 5,
+      "description": "Task 'aldervale-story-data-v1' completed successfully.",
+      "status": "completed",
+      "timestamp": 1792660678.4722834,
+      "timestamp_str": "2026-10-22 12:17:58"
+    },
+    {
+      "task_id": "aldervale-launch-v1",
+      "phase": "implementation",
+      "phase_num": 3,
+      "description": "[1/1] One-click run: PLAY.bat (Windows Terminal preferred, py/python fallback, CI-safe --version fast path), run.sh (POSIX), .vscode launch.json F5 configs, README docs, 3 failing-first tests; gates 4/4; checklists: passed",
+      "files_affected": [],
+      "status": "in_progress",
+      "timestamp": 1792665247.1260848,
+      "timestamp_str": "2026-10-22 13:34:07",
+      "impact_assessment": {
+        "why": "Launching the game required typing a module command; the user asked for a one-click run button",
+        "benefits": "Double-click play on Windows, one-command on POSIX, F5 in VS Code, with graceful Python-missing messaging",
+        "risks": "contract: launchers must stay at project root next to the package; dependency: wt.exe optional, py/python either; concurrency: none; state: none",
+        "mitigation": "Launchers tested via --version fast path that opens no windows; explicit-path subprocess test avoids NoDefaultCurrentDirectoryInExePath quirks"
+      }
+    },
+    {
+      "task_id": "aldervale-launch-v1",
+      "phase": "completed",
+      "phase_num": 5,
+      "description": "Task 'aldervale-launch-v1' completed successfully.",
+      "status": "completed",
+      "timestamp": 1792665247.2950668,
+      "timestamp_str": "2026-10-22 13:34:07"
+    },
+    {
+      "task_id": "aldervale-launch-fix-v1",
+      "phase": "implementation",
+      "phase_num": 3,
+      "description": "[1/1] Fix PLAY.bat wt launch: %~dp0 trailing backslash escaped the closing quote so wt swallowed the command line as -d; use %CD% instead; regression test pins the quoting; verified live wt launch lands in the project root; gates 4/4; checklists: passed",
+      "files_affected": [],
+      "status": "in_progress",
+      "timestamp": 1792672976.9611251,
+      "timestamp_str": "2026-10-22 15:42:56",
+      "impact_assessment": {
+        "why": "User hit error 0x8007010b: the -d directory argument ended in a backslash-quote that escaped under CommandLineToArgvW parsing",
+        "benefits": "Double-click launch works in Windows Terminal; quoting hazard pinned by test so it cannot return",
+        "risks": "contract: PLAY.bat must cd before using %CD%; dependency: none new; concurrency: none; state: none",
+        "mitigation": "cd /d %~dp0 runs first in the bat; live wt probe confirmed the working directory; full suite 70/70 and gates green"
+      }
+    },
+    {
+      "task_id": "aldervale-launch-fix-v1",
+      "phase": "completed",
+      "phase_num": 5,
+      "description": "Task 'aldervale-launch-fix-v1' completed successfully.",
+      "status": "completed",
+      "timestamp": 1792672977.0973995,
+      "timestamp_str": "2026-10-22 15:42:57"
     }
   ]
 }

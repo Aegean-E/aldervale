@@ -443,6 +443,15 @@ class TestLaunchers(unittest.TestCase):
         self.assertIn("python3 -m aldervale", content)
         self.assertIn("python -m aldervale", content)
 
+    def test_play_bat_wt_directory_has_no_trailing_backslash(self):
+        with open(os.path.join(PROJECT, "PLAY.bat"),
+                  encoding="utf-8", errors="replace") as f:
+            content = f.read()
+        self.assertNotIn('-d "%~dp0"', content,
+                         "trailing backslash escapes the quote and wt "
+                         "swallows the whole command line as -d")
+        self.assertIn('-d "%CD%"', content)
+
     def test_vscode_launch_configs(self):
         with open(os.path.join(PROJECT, ".vscode", "launch.json"),
                   encoding="utf-8") as f:
