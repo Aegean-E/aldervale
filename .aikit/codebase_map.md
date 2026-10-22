@@ -7,10 +7,10 @@
 
 ## 📊 Codebase Metrics
 - **Total Python Modules**: `20`
-- **Total Classes**: `39`
+- **Total Classes**: `40`
 - **Total Top-Level Functions**: `104`
-- **Total Class Methods**: `204`
-- **Total Source Lines**: `5493`
+- **Total Class Methods**: `207`
+- **Total Source Lines**: `5523`
 
 ---
 
@@ -502,7 +502,7 @@
 ### [`tests/test_integration.py`](tests/test_integration.py)
 > *Integration tier: world generation, quest chain, rendering and the CLI.*
 
-**Size**: `428` lines (`14992` bytes)
+**Size**: `458` lines (`16244` bytes)
 
 **Classes:**
 - `class TestTerrain`
@@ -548,6 +548,10 @@
   - Method `.test_death_transitions_to_dead_state()`
   - Method `.test_gate_guards_spawn_as_twins()`
   - Method `.test_npc_talk_delegates_to_story()`
+- `class TestLaunchers` - *The one-click run buttons: PLAY.bat, run.sh and the VS Code config.*
+  - Method `.test_play_bat_version_fastpath()`
+  - Method `.test_run_sh_targets_module()`
+  - Method `.test_vscode_launch_configs()`
 
 **Functions:**
 - `def _tiny_atlas()`

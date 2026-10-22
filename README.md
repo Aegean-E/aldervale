@@ -18,10 +18,15 @@ Standard library only; no dependencies, no assets, no build step.
   ```
 - **Run something now** (under 10 seconds):
   ```bash
+  PLAY.bat    # Windows: double-click it in Explorer - one click, no typing
+  ./run.sh    # macOS and Linux
   python -m aldervale --demo 9      # hands-free attract mode
   python -m aldervale --screenshot vista.txt && type vista.txt
   python -m aldervale               # play (WASD, SPACE, E, I, H)
   ```
+
+  In VS Code, open the project folder and press F5 (or the Run button) -
+  `ALDERVALE: Play` and `ALDERVALE: Demo` configurations are included.
 
 ### AIKit Commands (run from the AIKit folder)
 | Role | Command |
@@ -76,6 +81,10 @@ Exit codes: 0 success, 1 failure (What/Why/Fix on stderr), 2 misuse.
 
 ```text
 aldervale/
+├── PLAY.bat            <- one-click launch on Windows (prefers Windows Terminal)
+├── run.sh              <- one-command launch on macOS and Linux
+├── .vscode/
+│   └── launch.json     <- F5 / Run button configurations for VS Code
 ├── aldervale/
 │   ├── __init__.py       <- package marker and version
 │   ├── __main__.py     <- CLI: demo, benchmark, screenshot, error triads

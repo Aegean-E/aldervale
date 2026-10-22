@@ -1,5 +1,6 @@
 """Integration tier: world generation, quest chain, rendering and the CLI."""
 
+import json
 import math
 import os
 import subprocess
@@ -422,6 +423,35 @@ class TestReviewFixes(unittest.TestCase):
                      if getattr(e, "name", None) == "Elder Quill")
         self.assertEqual(w.npc_talk(elder),
                          story.dialogue_for("Elder Quill", w.quest))
+
+
+class TestLaunchers(unittest.TestCase):
+    """The one-click run buttons: PLAY.bat, run.sh and the VS Code config."""
+
+    def test_play_bat_version_fastpath(self):
+        if sys.platform != "win32":
+            self.skipTest("PLAY.bat is Windows-only")
+        r = subprocess.run(
+            ["cmd", "/c", os.path.join(PROJECT, "PLAY.bat"), "--version"],
+            cwd=PROJECT, capture_output=True, text=True, timeout=120)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("ALDERVALE", r.stdout)
+
+    def test_run_sh_targets_module(self):
+        with open(os.path.join(PROJECT, "run.sh"), encoding="utf-8") as f:
+            content = f.read()
+        self.assertIn("python3 -m aldervale", content)
+        self.assertIn("python -m aldervale", content)
+
+    def test_vscode_launch_configs(self):
+        with open(os.path.join(PROJECT, ".vscode", "launch.json"),
+                  encoding="utf-8") as f:
+            data = json.load(f)
+        names = [c["name"] for c in data["configurations"]]
+        self.assertIn("ALDERVALE: Play", names)
+        for cfg in data["configurations"]:
+            self.assertEqual(cfg["module"], "aldervale")
+            self.assertEqual(cfg["cwd"], "${workspaceFolder}")
 
 
 if __name__ == "__main__":
