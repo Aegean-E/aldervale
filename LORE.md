@@ -4,8 +4,10 @@
 > names, bestiary, expansions - is built upon this document. Where the game
 > and this document disagree, the game is a rumour and this is the truth.
 >
-> Second edition: the canon of the seven hearths, the Roll of the Keepers,
-> the fixed chronology, and the five acts.
+> Third edition: the six hearths in full, the fall of Hollowmere, the Roll
+> of Champions, the anatomy of an audit, the artifacts, the year-wheel, the
+> sayings and songs of the vale, and the Act II treatment. The Chronicle
+> adds pages when needed; so does this document.
 
 ---
 
@@ -47,9 +49,7 @@ Aldervale's ember is the **Suncrest**. It has had eleven Keepings and twelve
 souls. The first was Alder the First. The eleventh was Maren the Kind.
 
 The lesson the Quiet Ages forgot is this: **warmth is never free. Someone is
-always the wood.**
-
-## The Seven Hearths
+always the wood.**## The Seven Hearths
 
 The saga's map. Visit them sparingly, one at a time, and never all at once.
 
@@ -84,6 +84,125 @@ The saga's map. Visit them sparingly, one at a time, and never all at once.
    shows a seventh ember that no living traveller has found. The Chronicle
    keeps a blank page for it, which is the only blank page the Chronicle
    permits itself.
+
+## The Six Hearths Besides Ours
+
+The index above is the map; this is the territory. Each vale is a caution, a
+mirror, or a promise, and the saga will visit them one at a time.
+
+### Hollowmere
+
+The vale of the mere - a wide dark lake that swallowed its own lowlands in
+some forgotten age, so that Hollowmere's people lived in two storeys: the
+upper country of farms and forge-law, and the under-country of the archive,
+built on the drowned shelf where the water is still and cold and keeps
+things. Hollowmere trusted its book. That is the whole of its tragedy; the
+rest is weather.
+
+Hollowmere's rite was never carried in the head, as Wrenna the Binder
+designed ours to be. Their priests read the binding from the **Second
+Chronicle**, kept in the under-country's deepest room, and what is read can
+drown. In the year 353 a winter fever broke Hollowmere's Keeper line - every
+eligible soul in one season - and Elsbeth the Last, holding the Mournstone
+steady with her own living warmth, sent her Champion to the mere to raise
+the book before she died. The divers went down by lamplight. The cold of the
+starving stone came up out of the ground to meet them, and the frost of a
+dying hearth does what frost does in this world: **it unwrites.** The
+Champion held the archive door through the last night, and what frost
+touched, frost erased. In the spring divers brought up one book, whole and
+dry and legible, and it was the wrong volume. The rites were in the second
+book. The second book is still down there.
+
+Elsbeth died unbound in early winter, because the words that might have
+bound her were forty feet under black water in the wrong hands of the right
+house. The Mournstone, with no new memory to hold, ate its last in a single
+season. The Grey came, counted, found the account closed by default, and
+took the warmth. It left the buildings. It took everything written into
+them. The people who stayed too long forgot their own names; the people who
+left in time left with their names and without their oaths, because oaths
+are written things. Thus the Unsworn: not oath-breakers - the **oath-erased**.
+
+And the Champion who held the door: the frost wrote over everything in the
+under-country except where he stood. When Halvard the Borrower came, years
+later, over the pass with his copying-kit, there was exactly one legible
+page in the drowned archive - the Champion's own page in Hollowmere's
+chronicle, framed in frost like a window. He copied it out word for word
+into the margins of ours, against the winter. The page reads, in full:
+
+> *Ser Alaric, of Hollowmere. He held the door.*
+
+He is the only mark the frost refused. The Chronicle files this under
+*evidence*, which is also where the Unsworn file their hope.
+
+### Graywater
+
+Graywater keeps the **Ledgerstone**, and has made an institution of being
+found adequate. Its people wear their deeds stitched into their coat-linings
+- good deeds in grey thread, which shows up in lamplight - and their
+children are taught to leave every account square before sleep, because the
+Ledgerstone weighs the book, and warmth is issued in the morning like
+rations, which it is. The Grey audits Graywater first each cycle, the way a
+careful inspector visits the tidy cupboard, and has never found the vale
+wanting, and has never once been invited to stay. Graywater's embassy to
+Aldervale, when it comes, will be polite, punctual, and quietly the most
+frightening thing in Act IV. Their national saying is *be adequate*, and
+they say it to children and to ambassadors in the same tone.
+
+### Brackle
+
+Brackle keeps the **Ironhearth** by tournament. When a Keeper's years run
+low, the fences go up in the market square and the forms are taught openly
+to whoever wishes to learn - the gamble being that anyone skilled enough to
+win the binding is skilled enough to have enjoyed their life first. Brackle
+calls the binding *the Warm Victory* and its champions die, on average,
+delighted. The Chronicle finds nothing about Brackle to admire and nothing
+to correct, which annoys it. In Act IV, Brackle's fencing masters would pay
+a great deal to cross blades with the man who held the door at Hollowmere,
+and Alaric should be allowed to lose to one of them on purpose, once, to see
+how it feels to be beaten on a page where nothing is at stake.
+
+### Sarles
+
+Sarles has no stone. The **Chalkstone** was stolen three hundred years ago
+by a thief whose name Sarles preserves with the care other nations reserve
+for kings - Fenn the Quartered, who was not quartered, but was divided four
+ways by grief, and walked into the Margins carrying the stone and never came
+out. Sarles survives on begged warmth: treaty-coals from Graywater,
+festival-fires from Brackle, and the quiet humiliation of a proud people
+attending other nations' hearths as guests. Sarles keeps the only records in
+the seven vales of how a hearth-stone is lifted, carried, hidden, and
+sought - the **Carriage Papers**. Corvin read them the winter before the
+theft, in the year 398, and signed the guest-book honestly, which the
+Sarles archivists still mention. The Papers contain one line about what
+happens to a stone whose Keeper dies unbound: *it sleeps, and may be
+carried, and may be lit again by a new binding, at a hearth that will have
+it.* Every exile in this saga, from Kestrel's Unsworn to the sleeping
+Mournstone itself, eventually walks toward that line.
+
+### Saltmere
+
+Saltmere drowned itself on purpose, and the Grey's ledger still shows it as
+*outstanding*. In the first audit of the elder cycle, the Salt-folk saw the
+Counting coming and could not pass it, and would not fail it, and so they
+opened their dikes in a single night and let the Underline in over the
+fields, and the Brinestone obligingly learned to burn underwater. The vale
+lives still, below, in the still cold brightness of the drowned country -
+its windows are said to be lit, its suppers said to be warm, its people said
+to be fine, and all of it forty feet down. The fishermen call the light the
+Lantern and do not fish over it. The Grey has never found them. The Grey has
+never stopped looking. Somewhere in the Unwritten there is a patient
+clerk with one unpaid line, and this amuses the Salt-folk, who can hear the
+auditors passing overhead like weather. Saltmere is the saga's proof that
+the Grey can be dodged - and its warning that dodging is a kind of drowning.
+
+### The Marginal Hearth
+
+Nothing is written here, on purpose, by rule. The seventh ember appears on
+every map of the elder sky and in no traveller's account. Pilgrims have
+walked into the Margins looking for it; the Margins kept the pilgrims and
+returned the rumours. The Chronicle's blank page for the Marginal Hearth is
+the only page it refuses to fill, and Quill polices that refusal like a
+debt. Act V ends wherever this paragraph stops being true.
 
 ## The Geography of the Page
 
@@ -144,9 +263,11 @@ All dates are years of the Keeping (K), counted from the Founding.
 | 99 | **The Long Winter.** The Grey audits; the Watch holds; the receipt is left. |
 | 120-340 | The Quiet Ages. The price becomes liturgy, then rumour, then figure of speech. |
 | 212 | Aldera the Mapless, last of House Alder, walks into the Margins with the household cutlery and no explanation. |
-| 344 | Halvard the Borrower begins the margins of the Chronicle that will one day hold a knight. |
+| 353 | Winter fever breaks Hollowmere's Keeper line. Elsbeth the Last holds the Mournstone with her living warmth. |
+| 355 | **Hollowmere goes dark.** The wrong book rises; Elsbeth dies unbound; the stone starves; the frost unwrites. Halvard the Borrower copies the Champion's page into our margins. |
 | 371 | Bram, fourteen, watches his mother Collen bound into the stone. |
 | 382 | Bram forges the Keeper's circlet at the castle forge, to the old specifications, and only later asks what they are for. |
+| 390 | Halvard the Borrower is bound. Quill inherits the staff, the Chronicle, and the margins. |
 | 398, autumn | Maren the Kind dies and is bound. Corvin feels her stop. |
 | 399, spring | Corvin gives the vale one winter of warning, then takes the Suncrest and the circlet east. |
 | 399, autumn | **The present.** The dead walk at night. The Chronicle inscribes this page. |
@@ -259,7 +380,8 @@ truth waits in Act III: he was Hollowmere's Champion, and Hollowmere's
 Champion *failed*. When the Mournstone starved, Alaric was holding the
 door. He is not a chosen one; he is somebody's second draft, and the saga
 will never let destiny be a substitute for that. He fights as if he
-remembers being better at it once. He was.
+remembers being better at it once. He was. The full account of the door he
+held is told under Hollowmere, in the Six Hearths.
 
 **Elder Quill, Keeper-presumpt.** Chronicler, widower of no one, husband of
 the vale. Carries the staff whose crystal is a chip of the First Mark.
@@ -361,6 +483,105 @@ yet, and why the honest ending frightens Quill more than the dark does.
 The Grey's heralds are not monsters either: an early frost, a wolf walking
 wrong, a winter that arrives a week early and apologizes for nothing.
 
+## House Alder and the Champions
+
+**House Alder** is not a dynasty of kings; it never needed to be, because a
+house that owns the fire owns the room. Founded by Alder the First, it
+supplied keepers of hearths and gate-wards and one memorable tax assessor,
+and dwindled across the Quiet Ages from a great house to a small stubborn
+one to a name on the gate. Its sigil was a tree with the roots above the
+branches - the family joke being that the Alders knew which way warmth
+flows. The last of the line, **Aldera the Mapless**, walked into the
+Margins in the year 212 carrying the household cutlery and no explanation;
+she is called the Mapless because she left every map the house owned pinned
+to the gate, facing outward, *as if for someone coming the other way.* The
+gate twins keep the maps. They have never said so. The Chronicle numbers
+the Champions it chooses to, which is all of them who mattered and none of
+them who were merely brave.
+
+**The Champion's oath, as sworn at the shrine:**
+
+> *I am the hand before the fire.*
+> *My Keeper's days are my length of days.*
+> *When the page takes them, I follow soon,*
+> *that no warmth want for a witness.*
+
+In the early Keepings, Champions kept that oath literally - they followed
+their Keepers within the year, some say by grief, some by arrangement, and
+the Chronicle records both without choosing. In the Quiet Ages the oath
+went ceremonial and Champions began living on, and the Chronicle pretended
+not to notice. Ser Corvin has now outlived Maren's binding by a year and
+counting, because he has something to do, and the Chronicle wishes him rest
+without specifying which kind.
+
+**The Roll of Champions:**
+
+1. **Ser Berrin the Wall** - first of the line; served Wrenna the Binder;
+   followed her within the year, on schedule, by oath. His shield hangs in
+   the shrine and is the only object in the vale the frost has never
+   touched. Nobody has tested this recently. Nobody should.
+2. **Ser Hult the Halfsworn** - broke his oath and walked into the Margins
+   rather than follow his Keeper. The Chronicle keeps his page open to this
+   day, which is not sentiment: an open page is a debt, and the Grey counts
+   open pages.
+3. **Dame Ferris the Faithful** - married her Keeper, with the shrine's
+   blessing and the archivists' disapproval; served her in both capacities
+   and followed her in neither, being the first Champion to petition for -
+   and win - the right to outlive. The Chronicle records the marriage and
+   nothing else about it, which is the Chronicle being discreet. Corvin and
+   Maren leaned on Dame Ferris's precedent. Only one of them read the
+   footnotes.
+4. **Ser Osney the Unhurried** - held the First Camp against a rising of
+   the unfinished dead for forty nights, alone, on the reasoning that "the
+   dead are not in a hurry either." His account of that siege is why
+   Corvin knew the camp could be held. The account's last line - *the trick
+   is to be sorrier than they are* - is taught to no one and remembered by
+   everyone.
+5. **Ser Katrin the Listener** - the only Champion who pressed her ear to
+   the Suncrest and told the truth about what she heard. Declared mad;
+   pensioned; her testimony is one of Guil the Doubtful's missing pages,
+   which the Chronicle calls a coincidence with a straight face.
+6. **Ser Corvin the Ashen** - bound to no lie: served Maren the Kind in
+   life, failed to prevent her keeping, and has outlived the oath's year by
+   three hundred days and counting. The page is open. The ink is wet.
+
+*For the Champion of Hollowmere, see the margin note - one page, held in
+the Borrower's hand, water-stained, framed in frost, legible. It says only:
+he held the door.*
+
+## Anatomy of an Audit
+
+The Grey is not weather, though it uses weather. An audit has stages, and
+the vale has learned to read them the way sailors read a swell.
+
+**The heralds.** First an early frost, right on the edge of ordinary. Then
+wolves walking wrong - upright, at dusk, looking at things wolves do not
+look at. Then a winter that arrives a week early and does not apologize.
+None of these are the Grey. They are the page curling before the ink
+arrives.
+
+**The Counting.** On the midwinter solstice, the Grey comes to the shrine
+as stillness with a presence in it, and counts. It counts the fire: every
+memory the stone holds, weighed. It counts the debt: every soul held
+against its will or otherwise, entered as liabilities recorded as assets,
+which is the specific entry the Grey exists to resent. It reconciles. A
+passed audit leaves a receipt - frost-nailed to the castle gate, in ledger
+hand - and a century of ordinary winters. The Long Winter's receipt is
+preserved in the Fragments, word for word.
+
+**Repossession.** A failed audit is not a battle. The Grey has never taken
+a life; it has taken everything else. It unwrites: warmth first, then
+purpose, then name, then oath, then the particular silence a room has when
+people who loved each other have left it. Hollowmere's buildings still
+stand because buildings are not written things - everything written *into*
+them is gone. There is no fighting this. There is only passing the audit,
+hiding from it (ask Saltmere, forty feet down, laughing), or - the third
+way, unproven, the way the saga is walking toward - showing the auditor a
+fire that owes nothing and letting the ledger find nothing to resent. The
+Grey is not cruel. It is punctual. The Chronicle, which is the closest
+thing the vale has to a second opinion, notes that of all the foes in this
+world, only the Grey has never once lied.
+
 ## The Suncrest Itself
 
 A disc of gold the size of a spread hand, warm as a held bird, always a
@@ -370,6 +591,59 @@ souls are bound in it, strand over strand, Alder at the centre. The warmth
 you feel through the metal is not radiance. It is **regard**. Old Tam is
 right: the vale was warm when it hung above the hearth. The vale was also,
 in the strictest sense, being worn.
+
+## Artifacts of the Vale
+
+**The Keeper's circlet.** Forged by Bram in the year 382, to the old
+specifications: seven bands of quenched steel over a core of Alder-wood
+from the First Camp, sized - this is the detail Bram did not ask about -
+to the skull of a willing donor. It is the instrument of binding, the
+needle of the Watch, and it has one property the specifications do not
+mention because the specifications assumed nobody would be wearing it
+casually: **it chooses.** Starved of a Keeper, it begins binding whoever
+bears it. It chose Maren, in her hour, cleanly. It is choosing Corvin now,
+slowly, out of spite or patience - the Chronicle cannot tell which, and
+suspects the circlet cannot either. After the Captain's fall it sits in
+the shrine vault, warm, patient, and increasingly interested in the
+margin knight. Bram could unmake it; Bram will not, because metal
+remembers, and what the circlet remembers is twelve souls, and unmaking
+it would be twelve funerals held at once.
+
+**Quill's staff.** Alder-wood, iron-shod, tipped with a chip of the First
+Mark that Halvard passed to Quill with the words *write smaller than I
+did.* The chip glows in proportion to what remains of Quill. It is the
+saga's most honest gauge: when the staff goes dark, the next Keeper's page
+opens, and everyone in the village knows how to read it, and everyone
+pretends not to.
+
+**Vesper's shard.** A splinter of the Mournstone, cold as a debt, carried
+in the wyvern's foreclaw since the fall of Hollowmere because putting it
+down would feel like burying the hearth a second time. The shard wants to
+go home. Near Hollowmere's mere it hums low enough to feel through a
+saddle, and it points - Vesper swears this by circling tighter - toward
+the shelf where the Second Chronicle lies. It is, in the strictest sense,
+a compass made of grief.
+
+**The Chronicle.** Bound in boards of Alder-wood cut from the First Camp's
+first fallen tree; written in ink drawn from the Inkwell's deepest bucket;
+begun at the First Mark in the year 9. Its rules, as far as any archivist
+has dared establish: it cannot be torn (attempted during Guil's doubt; the
+attempter is not recorded; see the Ninth Keeping); it adds pages when
+needed, and only then; it cannot lie, but it lies politely - by omission,
+by redaction, by the placement of a comma in the marriage record of Dame
+Ferris - and its last line is blank, and Quill refuses to write it, and
+has refused for forty years. The Chronicle is the saga's second
+protagonist. Everything warm in this world is a story being spent; the
+Chronicle is where the spending is written down.
+
+**The Lantern.** Bram's second forging, secret, unnamed by its maker's
+own rule - *you don't name a thing that might not work; you name the grave
+if it doesn't.* A cage of quenched steel around a cradle of polished
+circlet-scrap, built to hold a hearth-stone the way a hand holds water:
+completely, and without gripping. If it works, a stone could be kept
+unkept - warm, carried, and owing no one. If it works. Bram tests it on
+cuttings, at night, alone, and has not yet told anyone what the results
+are, which is itself a result.
 
 ## A Bestiary of the Vale (partial, honest)
 
@@ -401,6 +675,13 @@ in the strictest sense, being worn.
 > *Take this hand that held you;*
 > *let it hold forever.*
 
+*The Champion's oath, sworn at the shrine (see the Roll of Champions):*
+
+> *I am the hand before the fire.*
+> *My Keeper's days are my length of days.*
+> *When the page takes them, I follow soon,*
+> *that no warmth want for a witness.*
+
 *The Rite of Return, reconstructed from Sarles and Corvin's own hand:*
 
 > *What was held, let walk.*
@@ -416,6 +697,89 @@ the castle gate, preserved in the Chronicle word for word:*
 > *Received of Aldervale, one (1) ember, fallen, unwitnessed.*
 > *Held against future warmth. Interest accrues in winters.*
 > *- The Ledger Remembers.*
+
+## Sayings of the Vale
+
+Dialogue-ready proverbs, with attribution as the vale gives it.
+
+- "Warmth is never free. Someone is always the wood." - the Chronicle
+- "The Ledger remembers." - Graywater, at partings
+- "Be adequate." - Graywater, to children and ambassadors
+- "Never ask a Keeper twice." - the vale, universally
+- "Cold men follow warm roads." - Kestrel's first rule
+- "A tale is a small sun." - the Chronicle, margin of the Ninth Keeping
+- "The fire before the friend." - frontier saying, now out of fashion
+- "Every blank page is a debt." - attributed to the Grey, though the Grey
+  has never been heard to say anything
+- "Sheep before speech." - Wren the Herder, at meetings
+- "Ask the well; the well is listening; the well is slow." - children's
+  rhyme, said over the Inkwell with a stone held ready
+- "You don't name a thing that might not work. You name the grave if it
+  doesn't." - Bram
+- "The comfortable page is true; the whole page is better." - Quill, to
+  apprentices he expects to outlive
+- "Married on the coldest night, to spite the arithmetic." - wedding custom
+- "The frost unwrites." - among the Unsworn; never explained twice
+
+## Songs of the Vale
+
+**"The Counting"** - a skipping rhyme of the vale, sung since the Long
+Winter:
+
+> First comes frost and then comes the grey,
+> count the fire, count the day;
+> hide a coal in your pocket, hold a word in your chest,
+> and the Winter goes counting east to west.
+
+*The Chronicle notes that children have sung this for three hundred years,
+and considers it probably healthy.*
+
+**"The Champion at the Door"** - a song of the Unsworn, sung low, around
+fires they are not allowed to keep:
+
+> The stone grew cold in the darkening mere,
+> and the book went down where the ink runs deep,
+> and the Champion stood at the archive door
+> while the frost wrote over the vale's own sleep.
+> Hold the door, said the light, till the morning mark;
+> a hand is a hinge, and a hinge holds fast;
+> hold the door through the cold and the dark -
+> some pages are saved by being held, at last.
+
+*Alaric has hummed this without knowing where he learned it. The Chronicle
+files this under evidence.*
+
+## The Year-Wheel
+
+The vale's calendar, and the quest hooks that grow on it.
+
+- **First-Thaw** (early spring) - the Inkwell is drawn and the first
+  bucket poured at the roots of the village fire: *waking the cutting.*
+  The fire is inspected for grey. Everyone pretends not to look at the
+  east.
+- **Sheep-Count** (late spring) - Wren's festival. Everything is counted,
+  including the chickens, twice. The one year the count came out even,
+  the vale declared it an omen and nothing happened, which Wren calls
+  proof.
+- **The Longest Afternoon** (summer solstice) - the safe hours. Oaths are
+  sworn, contracts signed, and quarrels settled while the page is
+  brightest; it is the only day the Unsworn are traditionally let across
+  the river, on the reasoning that daylight is everyone's.
+- **The Falling** (autumn equinox) - lanterns floated on the Inkwell, one
+  per name, for the dead. The lanterns drift to the same spot and hold
+  there, in a slow wheel, until they go out together at dawn. Nobody has
+  ever retrieved one. Nobody has wanted to.
+- **Keeping Day** (early winter) - the Chronicle is read aloud at the
+  shrine from dusk to dawn, every Keeper's page in order. Quill has never
+  once finished before dawn and never once stopped early. The reading is
+  the vale's audit of itself, and the tradition insists that the Grey,
+  if it is anywhere near, listens.
+- **Hearth-Nights** (midwinter solstice) - the Twins' festival and the
+  marriage season, held at the shrine on the coldest night: *married on
+  the coldest night, to spite the arithmetic.* The same night, once every
+  three hundred years, is the Counting. The vale has always known this
+  and has always married anyway, which either proves courage or proves
+  that courage is a kind of arithmetic.
 
 ## The Roll of the Keepers
 
@@ -523,6 +887,63 @@ Alaric - the second draft who saved the page - walks to where the page
 curls, and the saga ends the only way its rules allow: one question
 answered, two opened, and the line finally written. Promise: the page
 turned. Cost: the pen.
+
+## Act II in Detail: The Keeper's Price
+
+The pattern for act treatments. Acts III-V await theirs in the same shape:
+zones, quests, reveals, end state, promise and cost.
+
+**Zones.** The village and shrine as known; the shrine vault (new); Bram's
+night forge (the village smithy after midnight); the Emberwood's western
+edge and the First Camp in its new aftermath - the rite-circle broken,
+the Dead Fire's ash ring still warm in one place, which nobody can explain.
+
+**Quests.**
+
+1. *The Warm Circlet.* The vault circlet warms whenever Alaric passes the
+   shrine steps. Quill forbids the vault. Bram, asked indirectly, says
+   only that metal remembers, and hammers louder. The quest is not to take
+   the circlet; it is to learn why everyone who loves Alaric is suddenly
+   careful with their hands around him.
+2. *The Smaller Hand.* Fetching archive volumes for Quill, Alaric reads
+   Halvard's margins and finds himself: one water-stained page, and the
+   Borrower's hand underneath it, and the words *against the winter.*
+   Quill, cornered, tells the truth with his usual kindness, which is to
+   say, the part of it that can be borne that evening.
+3. *Vesper's Vigil.* The wyvern's trust is won by carried warmth: bring a
+   lit cutting to her perch and shield it in the wind with your body. She
+   watches the flame, not the knight. Three nights of this and she lands
+   on the green, and the chickens are vindicated, and Wren weeps, and the
+   shard in her claw hums - low, and to the east.
+4. *The Unsworn's Fire.* Kestrel asks for a hearth-cutting for her camp.
+   Quill cannot spare one: every cutting dims the stone's reach, and the
+   stone is one season from an audit. The choice stands: warmth for
+   guests, or warmth kept for the counting. Neither answer is wrong, and
+   the Chronicle will record whichever one hurts.
+5. *The Night Test.* Bram, finally, shows someone the Lantern. One
+   cutting, one night, in the cage: if the cutting burns till dawn without
+   dimming the stone, the principle holds. It does. Bram does not name it.
+   Bram says: *"All right. Now the big one."* - and the audit is one
+   winter away, and this is where Act II ends.
+
+**Reveals.** Alaric's origin (told gently, by Quill); the circlet's
+interest in Alaric (shown, not explained); the Lantern's principle
+(proven on a cutting); Vesper's trust (won); Kestrel's cause (humanized);
+the true cost of Act I's victory (understood by the player as a feeling
+before it is ever said aloud by anyone).
+
+**End state.** The Watch is not ended, but for the first time in four
+hundred years there is a plan that is not a funeral. Quill writes a page
+in a hand very slightly larger than the year before. Vesper sleeps on the
+green. The circlet, in its vault, is patient the way instruments of
+binding are patient. And on the last night, Alaric - checking the Lantern
+alone - hears, from inside the vault, very quietly, the circlet humming
+the tune the Unsworn sing about him.
+
+**Promise kept:** a way to hold fire without gripping it exists.
+**Cost collected:** the circlet has chosen, and it chose the man who
+cannot be spent, because he is only a copy - and the Chronicle's margin
+now carries a mark beside his name that Quill will not explain.
 
 ## The Theme, Stated Once
 
