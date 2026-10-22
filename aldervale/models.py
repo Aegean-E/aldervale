@@ -83,6 +83,7 @@ def knight(pose=None, palette=None):
         hip = (0.13 * side, 0.88, 0.0)
         b.box(0.13 * side, 0.66, 0.0, 0.17, 0.44, 0.19, pal["steel_d"], rx=ang, pivot=hip)
         b.box(0.13 * side, 0.24, 0.01, 0.15, 0.44, 0.16, pal["steel"], rx=ang * 1.12, pivot=hip)
+        b.box(0.13 * side, 0.47, 0.10, 0.14, 0.10, 0.07, pal["steel"], rx=ang * 1.12, pivot=hip)
         b.box(0.13 * side, 0.07, 0.10, 0.17, 0.14, 0.30, pal["leather"], rx=ang * 1.12, pivot=hip)
     lp = (0.0, 0.9, 0.0)
 
@@ -91,9 +92,15 @@ def knight(pose=None, palette=None):
               pivot=lp, emissive=emissive)
 
     part(0.0, 0.92, 0.0, 0.50, 0.10, 0.31, pal["leather"])
+    part(0.0, 0.92, 0.158, 0.10, 0.06, 0.02, pal["gold"])
     part(0.0, 1.18, 0.0, 0.50, 0.56, 0.31, pal["steel"])
     part(0.0, 1.17, 0.158, 0.34, 0.50, 0.02, pal["trim"])
     part(0.0, 0.965, 0.160, 0.35, 0.07, 0.025, pal["gold"])
+    part(0.0, 1.24, 0.162, 0.06, 0.06, 0.02, pal["gold"])
+    part(0.0, 1.31, 0.162, 0.035, 0.05, 0.02, pal["gold"])
+    part(0.0, 1.17, 0.162, 0.035, 0.05, 0.02, pal["gold"])
+    part(-0.075, 1.24, 0.162, 0.05, 0.035, 0.02, pal["gold"])
+    part(0.075, 1.24, 0.162, 0.05, 0.035, 0.02, pal["gold"])
     part(0.0, 1.17, -0.158, 0.34, 0.50, 0.02, pal["trim_d"])
     part(-0.32, 1.41, 0.0, 0.22, 0.16, 0.27, pal["steel_d"], ry=0.16)
     part(0.32, 1.41, 0.0, 0.22, 0.16, 0.27, pal["steel_d"], ry=-0.16)
@@ -321,6 +328,8 @@ def villager(pose=None, variant=0, role="peasant"):
         b.box(0.29 * side, 0.86, 0.01, 0.10, 0.28, 0.12,
               SKIN if role == "smith" else tunic, rx=p["leg_r"] * 0.5 * -side, pivot=sh)
     part(0.0, 1.52, 0.0, 0.21, 0.23, 0.21, SKIN)
+    part(-0.045, 1.55, 0.107, 0.035, 0.03, 0.01, EYE_DARK)
+    part(0.045, 1.55, 0.107, 0.035, 0.03, 0.01, EYE_DARK)
     part(0.0, 1.62, -0.02, 0.23, 0.09, 0.23, hair)
     if role == "elder":
         part(0.0, 1.4, 0.09, 0.15, 0.3, 0.07, C(222, 220, 214))

@@ -85,9 +85,15 @@ def run(argv=None):
 
 def _play(game, demo=None):
     from .term import Terminal
+
+    def progress(model, frac):
+        game.term.write("\x1b[2J\x1b[HForging the realm... %3d%%  %s"
+                        % (int(frac * 100), model))
+        game.term.flush()
+
     with Terminal(color=game.color) as term:
         term.set_title("ALDERVALE - an ASCII chronicle")
-        game.boot(term, progress=lambda k, f: None)
+        game.boot(term, progress=progress)
         if demo is not None:
             game.state = "title"
         return game.run()

@@ -55,7 +55,10 @@ class Game:
         self._resize_check = 0
         self._load_progress = []
         self.cam_y = 6.0
-        self._dt = 0.016
+        self.cam_pitch = 0.30
+        self.walk_target = None
+        self._drag = None
+        self.dt = 0.016
         self.help_from = "play"
         self.w = width or 132
         self.h = height or 60
@@ -106,7 +109,7 @@ class Game:
         else:
             self.cam_y += (target_y - self.cam_y) * min(1.0, 0.18)
         self.cam = Camera(self.w, self.h, cx, cz, self.cam_y, self.cam_yaw,
-                          pitch=0.30, dist=self.cam_dist)
+                          pitch=self.cam_pitch, dist=self.cam_dist)
 
     def run(self):
         """Main loop until the player quits or the demo expires."""
@@ -118,7 +121,7 @@ class Game:
             now = time.monotonic()
             dt = min(0.05, now - last)
             last = now
-            self._dt = dt
+            self.dt = dt
             self._poll_resize()
             self._handle_keys()
             if self.demo_secs is not None:
@@ -178,6 +181,9 @@ class Game:
         if self.term is None:
             return
         pressed, held = self.term.poll()
+        if self.state == "play":
+            for ev in self.term.take_mouse():
+                self._on_mouse(ev)
         if pressed:
             start_state = self.state
             for key in pressed:
@@ -188,6 +194,77 @@ class Game:
                     break
         if self.state == "play":
             self._apply_movement_held(held)
+
+    def _on_mouse(self, ev):
+        kind, col, row, buttons, wheel = ev
+        if kind == "resize":
+            self._resize_check = 0
+            return
+        if kind == "wheel":
+            if wheel > 0:
+                self.cam_dist = max(4.0, self.cam_dist - 0.8)
+            else:
+                self.cam_dist = min(15.0, self.cam_dist + 0.8)
+            return
+        if kind == "rdown":
+            self._drag = (col, row)
+            return
+        if kind == "up":
+            self._drag = None
+            return
+        if kind == "move":
+            if self._drag is not None:
+                dx = col - self._drag[0]
+                dy = row - self._drag[1]
+                self.cam_yaw += dx * 0.045
+                self.cam_pitch = max(0.12, min(0.62,
+                                            self.cam_pitch + dy * 0.012))
+            self._drag = (col, row) if (buttons & 0x2) else None
+            return
+        if kind == "ldown":
+            self._click_at(col, row)
+
+    def pick_world(self, col, row):
+        """Screen cell to a world point using the depth buffer."""
+        if self.cam is None or not (0 <= col < self.w and 0 <= row < self.h):
+            return None
+        depth = self.screen.depth[row][col]
+        if not (0.7 <= depth < 1.0e8):
+            return None
+        ang = self.cam.yaw + self.cam.col_angle[col]
+        return (self.cam.x + math.sin(ang) * depth,
+                self.cam.z + math.cos(ang) * depth)
+
+    def _click_at(self, col, row):
+        p = self.world.player
+        if p.dead or p.attacking:
+            return
+        point = self.pick_world(col, row)
+        if point is None:
+            return
+        tx, tz = point
+        best = None
+        best_d = 2.6
+        for e in self.world.entities:
+            if getattr(e, "kind", "") not in ("wolf", "bandit", "skeleton",
+                                              "captain"):
+                continue
+            if getattr(e, "dead", False):
+                continue
+            d = math.hypot(e.x - tx, e.z - tz)
+            if d < best_d:
+                best = e
+                best_d = d
+        if best is not None:
+            reach = 2.2 + best.radius
+            if math.hypot(best.x - p.x, best.z - p.z) <= reach:
+                p.yaw = math.atan2(best.x - p.x, best.z - p.z)
+                self._try_attack()
+                self.walk_target = None
+                return
+            self.walk_target = (best.x, best.z)
+            return
+        self.walk_target = (tx, tz)
 
     def _apply_movement_held(self, held):
         """Continuous movement, turning and sprint from held key tokens."""
@@ -206,9 +283,28 @@ class Game:
         if "a" in held:
             side -= 1.0
         if "left" in held:
-            self.cam_yaw -= 2.2 * self._dt
+            self.cam_yaw -= 2.2 * self.dt
         if "right" in held:
-            self.cam_yaw += 2.2 * self._dt
+            self.cam_yaw += 2.2 * self.dt
+        if self.walk_target is not None:
+            if fwd != 0.0 or side != 0.0:
+                self.walk_target = None
+            else:
+                tx, tz = self.walk_target
+                dx = tx - p.x
+                dz = tz - p.z
+                dist = math.hypot(dx, dz)
+                if dist < 0.5:
+                    self.walk_target = None
+                    target = self.world.interact_target()
+                    if target is not None:
+                        self._try_interact()
+                    self._movement(0.0, 0.0, False)
+                    return
+                fx = math.sin(self.cam_yaw)
+                fz = math.cos(self.cam_yaw)
+                fwd = (dx * fx + dz * fz) / dist
+                side = (dx * fz - dz * fx) / dist
         self._movement(fwd, side, "shift" in held)
 
     def _movement(self, fwd, side, sprint):
@@ -218,9 +314,9 @@ class Game:
             return
         speed = p.speed * (1.45 if sprint and p.stamina > 1 else 1.0)
         if sprint and (fwd != 0.0 or side != 0.0):
-            p.stamina = max(0.0, p.stamina - 16.0 * self._dt)
+            p.stamina = max(0.0, p.stamina - 16.0 * self.dt)
         else:
-            p.stamina = min(p.max_stamina, p.stamina + 11.0 * self._dt)
+            p.stamina = min(p.max_stamina, p.stamina + 11.0 * self.dt)
         if fwd == 0.0 and side == 0.0:
             p.moving = False
             return
@@ -234,19 +330,21 @@ class Game:
             return
         dx, dz = dx / d, dz / d
         p.yaw = math.atan2(dx, dz)
-        move_actor(p, dx * speed, dz * speed, self.world, self._dt)
+        move_actor(p, dx * speed, dz * speed, self.world, self.dt)
         p.moving = True
 
     def _try_attack(self):
         p = self.world.player
         if p.attacking or p.dead or p.stamina < 12:
             return
+        self.walk_target = None
         p.stamina -= 12
         p.attack_t = 0.0
         p.attack_done = False
 
     def _try_interact(self):
         w = self.world
+        self.walk_target = None
         target = w.interact_target()
         if target is None:
             return

@@ -7,10 +7,10 @@
 
 ## 📊 Codebase Metrics
 - **Total Python Modules**: `20`
-- **Total Classes**: `43`
-- **Total Top-Level Functions**: `105`
-- **Total Class Methods**: `225`
-- **Total Source Lines**: `5850`
+- **Total Classes**: `45`
+- **Total Top-Level Functions**: `107`
+- **Total Class Methods**: `243`
+- **Total Source Lines**: `6178`
 
 ---
 
@@ -26,7 +26,7 @@
 ### [`aldervale/__main__.py`](aldervale/__main__.py)
 > *ALDERVALE command line entry point.*
 
-**Size**: `179` lines (`6556` bytes)
+**Size**: `185` lines (`6728` bytes)
 
 **Functions:**
 - `def _build_parser()`
@@ -42,7 +42,7 @@
 ### [`aldervale/atlas.py`](aldervale/atlas.py)
 > *Sprite atlas: bakes every (model, pose, yaw) combination at load time.*
 
-**Size**: `197` lines (`9266` bytes)
+**Size**: `197` lines (`9270` bytes)
 
 **Classes:**
 - `class SpriteAtlas` - *Baked sprite frames lookup: (model_key, pose_name) -> [yaw frames].*
@@ -120,7 +120,7 @@
 ### [`aldervale/game.py`](aldervale/game.py)
 > *Game shell: states, input, camera, main loop, demo autopilot.*
 
-**Size**: `479` lines (`16758` bytes)
+**Size**: `577` lines (`20321` bytes)
 
 **Classes:**
 - `class Game` - *Drives one play session from title screen to victory.*
@@ -135,6 +135,9 @@
   - Method `._poll_resize()`
   - Method `._demo_steer(dt)`
   - Method `._handle_keys()`
+  - Method `._on_mouse(ev)`
+  - Method `.pick_world(col, row)` - *Screen cell to a world point using the depth buffer.*
+  - Method `._click_at(col, row)`
   - Method `._apply_movement_held(held)` - *Continuous movement, turning and sprint from held key tokens.*
   - Method `._movement(fwd, side, sprint)`
   - Method `._try_attack()`
@@ -156,7 +159,7 @@
 ### [`aldervale/hud.py`](aldervale/hud.py)
 > *HUD and menu rendering: bars, minimap, dialogue, shop, inventory, titles.*
 
-**Size**: `366` lines (`14435` bytes)
+**Size**: `369` lines (`14570` bytes)
 
 **Classes:**
 - `class ItemStub`
@@ -206,7 +209,7 @@
 ### [`aldervale/mesh.py`](aldervale/mesh.py)
 > *Low-poly mesh construction and the mesh-to-ASCII sprite baker.*
 
-**Size**: `337` lines (`12262` bytes)
+**Size**: `363` lines (`13121` bytes)
 
 **Classes:**
 - `class Sprite` - *A baked char-cell image with per-cell packed RGB colour.*
@@ -230,6 +233,7 @@
 **Functions:**
 - `def _raster_tri(chars, colors, zbuf, cw, ch, tri, color, lum, ramp, n_ramp)` - *Scanline-fill one projected triangle with z-test and ramp dithering.*
 - `def bake_sprite(mesh, yaw, pitch, dist, f, aspect, canvas, light, ramp, crop)` - *Bake a mesh into a Sprite viewed from yaw/pitch at the given scale.*
+- `def _outline(chars, colors, cw, ch)` - *Darken the silhouette edge so models read as shapes, not noise.*
 - `def _crop_bounds(chars, cw, ch)` - *Bounding box (x0, y0, x1, y1) of non-space cells, or a 1x1 fallback.*
 - `def _pack_grid(chars, colors, cw, ch, box)` - *Slice flat buffers into row-lists limited to the given crop box.*
 
@@ -238,7 +242,7 @@
 ### [`aldervale/models.py`](aldervale/models.py)
 > *Every 3D model in the realm: actors, creatures, flora and architecture.*
 
-**Size**: `676` lines (`27654` bytes)
+**Size**: `685` lines (`28225` bytes)
 
 **Functions:**
 - `def C(r, g, b)`
@@ -348,7 +352,7 @@
 ### [`aldervale/term.py`](aldervale/term.py)
 > *Terminal control: VT100 setup, polled key input and frame output.*
 
-**Size**: `370` lines (`12836` bytes)
+**Size**: `419` lines (`14941` bytes)
 
 **Classes:**
 - `class TerminalError` - *Raised when the terminal cannot render the game at all.*
@@ -361,6 +365,7 @@
   - Method `._init_win_input()`
   - Method `.close()`
   - Method `.size()`
+  - Method `.take_mouse()` - *Drain queued mouse events: (kind, x, y, buttons, wheel).*
   - Method `.poll()` - *Return (pressed, held): new key tokens and currently held ones.*
   - Method `.write(text)`
   - Method `.flush()`
@@ -368,6 +373,7 @@
   - Method `.read_key()` - *Return one normalized key token or None; never blocks.*
 
 **Functions:**
+- `def _mouse_event(x, y, buttons, flags)` - *Normalize a Windows MOUSE_EVENT_RECORD into a game mouse token.*
 - `def vk_token(vk, ch)` - *Map a Windows virtual-key code to a game key token, or None.*
 
 ---
@@ -446,7 +452,7 @@
 ### [`tests/test_aldervale.py`](tests/test_aldervale.py)
 > *Unit tier: fast in-process checks for the pure engine core.*
 
-**Size**: `374` lines (`13336` bytes)
+**Size**: `412` lines (`14912` bytes)
 
 **Classes:**
 - `class FakeTerm`
@@ -503,13 +509,17 @@
   - Method `.test_quest_objectives_cover_states()`
   - Method `.test_guard_dialogue_carries_twin_name()`
   - Method `.test_player_name_single_source()`
+- `class TestMouseAndOutline` - *Mouse event normalization and sprite silhouette outlines.*
+  - Method `.test_mouse_event_normalization()`
+  - Method `.test_bake_sprite_has_silhouette_outline()`
+  - Method `.test_bake_flat_face_is_one_glyph()`
 
 ---
 
 ### [`tests/test_integration.py`](tests/test_integration.py)
 > *Integration tier: world generation, quest chain, rendering and the CLI.*
 
-**Size**: `593` lines (`20404` bytes)
+**Size**: `692` lines (`23500` bytes)
 
 **Classes:**
 - `class TestTerrain`
@@ -571,8 +581,20 @@
 - `class FakePollTerm`
   - Method `.__init__()`
   - Method `.queue_press(keys)`
+  - Method `.queue_mouse(events)`
   - Method `.poll()`
+  - Method `.take_mouse()`
+  - Method `.write(text)`
+  - Method `.flush()`
   - Method `.size()`
+- `class TestMouse` - *Mouse orbit, zoom, pick, walk-to and click-to-attack.*
+  - Method `._game()`
+  - Method `.test_right_drag_orbits_and_tilts()`
+  - Method `.test_wheel_zooms()`
+  - Method `.test_pick_rejects_sky()`
+  - Method `.test_click_sets_walk_target()`
+  - Method `.test_walk_target_carries_player()`
+  - Method `.test_click_near_enemy_attacks()`
 - `class TestTitleFlow` - *Starting a new game from the title screen through the poll path.*
   - Method `.test_new_game_starts_from_title()`
   - Method `.test_continue_without_save_starts_world()`

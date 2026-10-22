@@ -370,5 +370,43 @@ class TestStoryData(unittest.TestCase):
                          CAST["player"]["name"])
 
 
+class TestMouseAndOutline(unittest.TestCase):
+    """Mouse event normalization and sprite silhouette outlines."""
+
+    def test_mouse_event_normalization(self):
+        from aldervale.term import _mouse_event
+        self.assertEqual(_mouse_event(5, 6, 1, 0)[0], "ldown")
+        self.assertEqual(_mouse_event(5, 6, 2, 0)[0], "rdown")
+        self.assertEqual(_mouse_event(5, 6, 0, 1)[0], "move")
+        self.assertEqual(_mouse_event(5, 6, 0, 0)[0], "up")
+        wheel_up = _mouse_event(5, 6, 120 << 16, 4)
+        self.assertEqual(wheel_up[0], "wheel")
+        self.assertEqual(wheel_up[4], 1)
+        wheel_down = _mouse_event(5, 6, (0xFFFF << 16) | 0xFFFF, 4)
+        self.assertEqual(wheel_down[4], -1)
+
+    def test_bake_sprite_has_silhouette_outline(self):
+        from aldervale.mesh import OUTLINE_CHAR
+        sp = bake_sprite(models.rock(seed=4), yaw=0.4, dist=9.0, f=120.0,
+                         aspect=0.5, canvas=(30, 20))
+        rows = sp.chars
+        edges = 0
+        for row in rows:
+            stripped = row.strip()
+            if stripped:
+                if stripped[0] == OUTLINE_CHAR:
+                    edges += 1
+        self.assertGreater(edges, 2)
+
+    def test_bake_flat_face_is_one_glyph(self):
+        b = MeshBuilder()
+        b.box(0.0, 0.0, 0.0, 1.4, 1.4, 1.4, 0xB0B0B0)
+        sp = bake_sprite(b.build(), yaw=0.0, pitch=0.0, dist=9.0, f=120.0,
+                         aspect=0.5, canvas=(40, 40))
+        mid = sp.chars[sp.h // 2]
+        interior = mid.strip(" ")[1:-1]
+        self.assertEqual(len(set(interior)), 1, interior)
+
+
 if __name__ == "__main__":
     unittest.main()

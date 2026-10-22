@@ -59,13 +59,16 @@ element to the exact file that owns it.
 | W S or Up Down | walk forward / back |
 | A D | sidestep left / right |
 | Left / Right | turn the camera |
+| Right-drag mouse | orbit and tilt the camera (full 3D look) |
+| Left-click | walk to a point; talk to what you reach; attack a foe in reach |
+| Mouse wheel | zoom the camera |
 | Hold Shift | sprint (drains stamina) |
 | SPACE | swing your sword |
 | E or Enter | talk / open chest / pick up / pray at shrine |
 | I | inventory (U use potion, E equip best) |
 | M | toggle minimap |
 | H or F1 | help |
-| + / - | zoom the camera |
+| + / - | zoom the camera (keys) |
 | ESC | pause (save & quit from there) |
 
 ## Command Line
@@ -125,8 +128,11 @@ gitignored.)
 
 - The renderer is a 2.5D composite: a per-column ray-march over the height
   grid (front-to-back with a hidden-row buffer) draws terrain, water and fog;
-  entities are depth-tested billboards chosen from 16 yaw-baked frames per
-  pose; emissive faces (fire, crystals, windows) bloom at night.
+  entities are depth-tested billboards chosen from 20 yaw-baked frames per
+  pose, baked at high cell density with silhouette outlines and flat-lit
+  faces so they read as solid models rather than noise; emissive faces (fire,
+  crystals, windows) bloom at night. The camera orbits and tilts freely, and
+  clicking the world walks there by reading the depth buffer.
 - Frames are emitted as foreground-only truecolor runs of changed cells, so
   HUD rows cost nothing and full-motion frames stay small.
 - Everything is deterministic from `--seed`: terrain, village layout, spawns,

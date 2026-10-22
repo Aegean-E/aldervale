@@ -1,39 +1,20 @@
 {
   "version": 1,
   "active_task": {
-    "task_id": "aldervale-res-v1",
+    "task_id": "aldervale-3d-v1",
     "last_phase": "implementation",
     "active_phase": 5,
     "status": "completed",
-    "updated_at": 1792684283.6609704,
+    "updated_at": 1792686728.7637458,
     "impact_assessment": {
-      "why": "The game rendered at the terminal default 120x30 (~3.6k cells) and actor sprites baked at 24 cells/unit; the user asked for higher resolution",
-      "benefits": "Maximized launch nearly doubles visible cells (209x51 verified), user window size scales up to 260x110, characters/creatures carry 25 percent more baked detail, and the event-input path now self-validates with a guaranteed fallback",
-      "risks": "contract: size caps and --width/--height ranges widened; dependency: wt -w/--maximized needs a modern Windows Terminal (verified on this machine, console fallback exists); concurrency: none; state: none",
-      "mitigation": "Live API probe confirmed srWindow 209x51 in the maximized window; benchmarks 24ms at 200x90 and 31ms at 250x105 keep the 30fps cap; full suite and gates green"
+      "why": "Players asked for mouse control, a real 3D camera and models that read as solid shapes rather than dithered noise",
+      "benefits": "Full 3D look (orbit/tilt/zoom), one-click walk-talk-attack, dramatically cleaner outlined models, visible loading progress",
+      "risks": "contract: term.take_mouse() and game.pick_world()/dt are public API; mouse is Windows-only (keyboard parity kept); dependency: console MOUSE_EVENT support, msvcrt fallback retained; state: none",
+      "mitigation": "8 new tests pin mouse normalization, orbit, zoom, picking, walk-to, click-attack and sprite outline/flat shading; full suite and gates green"
     },
-    "completed_at": 1792684283.8004398
+    "completed_at": 1792686728.8886335
   },
   "checkpoints": [
-    {
-      "task_id": "ascii-rpg-v1",
-      "phase": "verification",
-      "phase_num": 4,
-      "description": "[5/5] Verification: 51/51 tests pass, aikit check 4/4 gates (test, hygiene, guidelines, secrets), demo/benchmark/screenshot smoke-exit 0; checklists: passed",
-      "files_affected": [],
-      "status": "in_progress",
-      "timestamp": 1792625843.9600246,
-      "timestamp_str": "2026-10-22 02:37:23"
-    },
-    {
-      "task_id": "ascii-rpg-v1",
-      "phase": "completed",
-      "phase_num": 5,
-      "description": "Task 'ascii-rpg-v1' completed successfully.",
-      "status": "completed",
-      "timestamp": 1792625844.086934,
-      "timestamp_str": "2026-10-22 02:37:24"
-    },
     {
       "task_id": "ascii-rpg-review-v1",
       "phase": "implementation",
@@ -258,6 +239,31 @@
       "status": "completed",
       "timestamp": 1792684283.800441,
       "timestamp_str": "2026-10-22 18:51:23"
+    },
+    {
+      "task_id": "aldervale-3d-v1",
+      "phase": "implementation",
+      "phase_num": 3,
+      "description": "[1/1] 3D + mouse + model fidelity: console-event mouse (orbit-drag, wheel zoom, click-to-walk/attack via depth picking), free-look camera pitch, 20 yaw frames, 36 cells/unit actor bakes, flat shading with silhouette outlines, knight emblem/knee plates, villager eyes, load progress; 87/87; gates 4/4; checklists: passed",
+      "files_affected": [],
+      "status": "in_progress",
+      "timestamp": 1792686728.7637458,
+      "timestamp_str": "2026-10-22 19:32:08",
+      "impact_assessment": {
+        "why": "Players asked for mouse control, a real 3D camera and models that read as solid shapes rather than dithered noise",
+        "benefits": "Full 3D look (orbit/tilt/zoom), one-click walk-talk-attack, dramatically cleaner outlined models, visible loading progress",
+        "risks": "contract: term.take_mouse() and game.pick_world()/dt are public API; mouse is Windows-only (keyboard parity kept); dependency: console MOUSE_EVENT support, msvcrt fallback retained; state: none",
+        "mitigation": "8 new tests pin mouse normalization, orbit, zoom, picking, walk-to, click-attack and sprite outline/flat shading; full suite and gates green"
+      }
+    },
+    {
+      "task_id": "aldervale-3d-v1",
+      "phase": "completed",
+      "phase_num": 5,
+      "description": "Task 'aldervale-3d-v1' completed successfully.",
+      "status": "completed",
+      "timestamp": 1792686728.888635,
+      "timestamp_str": "2026-10-22 19:32:08"
     }
   ]
 }

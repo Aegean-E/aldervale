@@ -26,9 +26,12 @@ TITLE_LOGO = [
 CONTROLS = [
     "W S or Up Down   walk          A D   sidestep",
     "Left / Right     turn the camera",
+    "Right-drag       orbit and tilt the camera",
+    "Left-click       walk / talk / attack",
+    "Wheel            zoom the camera",
     "Hold Shift       sprint        SPACE  swing your sword",
     "E or Enter       talk / open / take / pray",
-    "I  inventory     M  map        + -    zoom camera",
+    "I  inventory     M  map        + -    zoom (keys)",
     "F1 or H  help    ESC  pause menu",
 ]
 

@@ -69,6 +69,24 @@ _NUMPAD = {
 }
 
 
+def _mouse_event(x, y, buttons, flags):
+    """Normalize a Windows MOUSE_EVENT_RECORD into a game mouse token."""
+    if flags & 0x0004:
+        delta = (buttons >> 16) & 0xFFFF
+        if delta > 0x7FFF:
+            delta -= 0x10000
+        return ("wheel", x, y, 0, 1 if delta > 0 else -1)
+    if flags & 0x0002:
+        return ("ldown", x, y, buttons, 0)
+    if flags & 0x0001:
+        return ("move", x, y, buttons, 0)
+    if buttons & 0x0001:
+        return ("ldown", x, y, buttons, 0)
+    if buttons & 0x0002:
+        return ("rdown", x, y, buttons, 0)
+    return ("up", x, y, buttons, 0)
+
+
 def vk_token(vk, ch):
     """Map a Windows virtual-key code to a game key token, or None."""
     tok = _VK_TOKENS.get(vk)
@@ -107,6 +125,8 @@ class Terminal:
         self._csbi = None
         self._kb_fallback = False
         self._kb_misses = 0
+        self._mouse_buf = []
+        self._old_in_mode = None
 
     def __enter__(self):
         self.start()
@@ -160,6 +180,9 @@ class Terminal:
     def _init_win_input(self):
         from ctypes import wintypes
 
+        class COORD(ctypes.Structure):
+            _fields_ = [("X", wintypes.SHORT), ("Y", wintypes.SHORT)]
+
         class KEY_EVENT_RECORD(ctypes.Structure):
             _fields_ = [("bKeyDown", wintypes.BOOL),
                         ("wRepeatCount", wintypes.WORD),
@@ -168,12 +191,19 @@ class Terminal:
                         ("uChar", wintypes.WCHAR),
                         ("dwControlKeyState", wintypes.DWORD)]
 
+        class MOUSE_EVENT_RECORD(ctypes.Structure):
+            _fields_ = [("dwMousePosition", COORD),
+                        ("dwButtonState", wintypes.DWORD),
+                        ("dwControlKeyState", wintypes.DWORD),
+                        ("dwEventFlags", wintypes.DWORD)]
+
+        class _EVENT(ctypes.Union):
+            _fields_ = [("KeyEvent", KEY_EVENT_RECORD),
+                        ("MouseEvent", MOUSE_EVENT_RECORD)]
+
         class INPUT_RECORD(ctypes.Structure):
             _fields_ = [("EventType", wintypes.WORD),
-                        ("Event", KEY_EVENT_RECORD)]
-
-        class COORD(ctypes.Structure):
-            _fields_ = [("X", wintypes.SHORT), ("Y", wintypes.SHORT)]
+                        ("Event", _EVENT)]
 
         class SMALL_RECT(ctypes.Structure):
             _fields_ = [("Left", wintypes.SHORT), ("Top", wintypes.SHORT),
@@ -199,6 +229,9 @@ class Terminal:
         if kernel32.GetConsoleMode(h_in, ctypes.byref(in_mode)) == 0:
             self._irec = None
             return
+        new_in = (in_mode.value | 0x0010 | 0x0080) & ~0x0040
+        if kernel32.SetConsoleMode(h_in, new_in) != 0:
+            self._old_in_mode = in_mode.value
         kernel32.GetNumberOfConsoleInputEvents.argtypes = [
             ctypes.c_void_p, ctypes.POINTER(ctypes.c_uint32)]
         kernel32.GetNumberOfConsoleInputEvents.restype = ctypes.c_int
@@ -230,6 +263,10 @@ class Terminal:
                     ctypes.windll.kernel32.GetStdHandle(-11), self._old_out_mode
                 )
                 self._old_out_mode = None
+            if self._old_in_mode is not None and self._h_in:
+                ctypes.windll.kernel32.SetConsoleMode(self._h_in,
+                                                      self._old_in_mode)
+                self._old_in_mode = None
             elif self._old_termios is not None:
                 import termios
 
@@ -252,6 +289,12 @@ class Terminal:
             sz = shutil.get_terminal_size(fallback=(120, 40))
         return max(20, sz.columns), max(10, sz.lines)
 
+    def take_mouse(self):
+        """Drain queued mouse events: (kind, x, y, buttons, wheel)."""
+        events = self._mouse_buf
+        self._mouse_buf = []
+        return events
+
     def poll(self):
         """Return (pressed, held): new key tokens and currently held ones."""
         if not self._is_tty:
@@ -267,19 +310,25 @@ class Terminal:
                                                   ctypes.byref(got)):
                     break
                 for rec in buf[:got.value]:
-                    if rec.EventType != 1:
-                        continue
-                    kev = rec.Event
-                    tok = vk_token(kev.wVirtualKeyCode, kev.uChar)
-                    if not tok:
-                        continue
-                    if kev.bKeyDown:
-                        if tok not in self._held:
-                            self._pressed_buf.append(tok)
-                        self._held.add(tok)
-                        self._last_seen[tok] = time.monotonic()
-                    else:
-                        self._held.discard(tok)
+                    if rec.EventType == 1:
+                        kev = rec.Event.KeyEvent
+                        tok = vk_token(kev.wVirtualKeyCode, kev.uChar)
+                        if not tok:
+                            continue
+                        if kev.bKeyDown:
+                            if tok not in self._held:
+                                self._pressed_buf.append(tok)
+                            self._held.add(tok)
+                            self._last_seen[tok] = time.monotonic()
+                        else:
+                            self._held.discard(tok)
+                    elif rec.EventType == 2:
+                        mev = rec.Event.MouseEvent
+                        self._mouse_buf.append(_mouse_event(
+                            mev.dwMousePosition.X, mev.dwMousePosition.Y,
+                            mev.dwButtonState, mev.dwEventFlags))
+                    elif rec.EventType == 4:
+                        self._mouse_buf.append(("resize", 0, 0, 0, 0))
             if not self._pressed_buf:
                 try:
                     import msvcrt

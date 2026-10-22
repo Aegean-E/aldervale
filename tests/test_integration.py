@@ -239,7 +239,7 @@ class TestGameShell(unittest.TestCase):
         cls.game._open_screen()
         cls.game._ensure_camera()
         cls.game.state = "play"
-        cls.game._dt = 1.0 / 30.0
+        cls.game.dt = 1.0 / 30.0
 
     def _render_once(self):
         env = Env(self.game.world.day_t, self.game.world.time)
@@ -477,7 +477,7 @@ class TestHeldControls(unittest.TestCase):
         cls.game._open_screen()
         cls.game._ensure_camera()
         cls.game.state = "play"
-        cls.game._dt = 1.0 / 30.0
+        cls.game.dt = 1.0 / 30.0
 
     def _tick(self, held, n=6):
         g = self.game
@@ -486,7 +486,7 @@ class TestHeldControls(unittest.TestCase):
         env = Env(g.world.day_t, 0.0)
         for _ in range(n):
             g._handle_keys()
-            g.world.update(g._dt, env)
+            g.world.update(g.dt, env)
 
     def test_w_moves_player_forward(self):
         g = self.game
@@ -545,17 +545,116 @@ class FakePollTerm:
     def __init__(self):
         self.held = set()
         self._presses = []
+        self._mouse = []
+        self.out = []
+        self.flushes = 0
 
     def queue_press(self, keys):
         self._presses = list(keys)
+
+    def queue_mouse(self, events):
+        self._mouse.extend(events)
 
     def poll(self):
         pressed = self._presses
         self._presses = []
         return pressed, set(self.held)
 
+    def take_mouse(self):
+        events = self._mouse
+        self._mouse = []
+        return events
+
+    def write(self, text):
+        self.out.append(text)
+
+    def flush(self):
+        self.flushes += 1
+
     def size(self):
         return (80, 40)
+
+
+class TestMouse(unittest.TestCase):
+    """Mouse orbit, zoom, pick, walk-to and click-to-attack."""
+
+    def _game(self):
+        g = Game(seed=3, terrain_size=SMALL, width=80, height=40)
+        g.term = FakePollTerm()
+        g.atlas = _tiny_atlas()
+        g.world = World(3, g.atlas, terrain_size=SMALL)
+        g._open_screen()
+        g._ensure_camera()
+        g.state = "play"
+        g.dt = 1.0 / 30.0
+        g._render(Env(g.world.day_t, 0.0))
+        return g
+
+    def test_right_drag_orbits_and_tilts(self):
+        g = self._game()
+        yaw0 = g.cam_yaw
+        pitch0 = g.cam_pitch
+        g.term.queue_mouse([("rdown", 40, 20, 0, 0),
+                            ("move", 48, 24, 2, 0)])
+        g._handle_keys()
+        self.assertGreater(g.cam_yaw, yaw0 + 0.2)
+        self.assertGreater(g.cam_pitch, pitch0)
+
+    def test_wheel_zooms(self):
+        g = self._game()
+        d0 = g.cam_dist
+        g.term.queue_mouse([("wheel", 40, 20, 0, 1)])
+        g._handle_keys()
+        self.assertLess(g.cam_dist, d0)
+        g.term.queue_mouse([("wheel", 40, 20, 0, -1)])
+        g._handle_keys()
+        self.assertAlmostEqual(g.cam_dist, d0, places=5)
+
+    def test_pick_rejects_sky(self):
+        g = self._game()
+        self.assertIsNone(g.pick_world(40, 0))
+
+    def test_click_sets_walk_target(self):
+        g = self._game()
+        target = None
+        for row in range(5, g.h - 6):
+            for col in range(5, g.w - 5):
+                if g.pick_world(col, row) is not None:
+                    target = (col, row)
+                    break
+            if target:
+                break
+        self.assertIsNotNone(target, "no pickable ground cell found")
+        g.term.queue_mouse([("ldown", target[0], target[1], 1, 0)])
+        g._handle_keys()
+        self.assertIsNotNone(g.walk_target)
+
+    def test_walk_target_carries_player(self):
+        g = self._game()
+        p = g.world.player
+        g.cam_yaw = math.pi
+        p.x, p.z = 36.0, 50.0
+        p.ground_y = g.world.terrain.height(p.x, p.z)
+        g.walk_target = (36.0, 44.0)
+        z0 = p.z
+        env = Env(g.world.day_t, 0.0)
+        for _ in range(20):
+            g._handle_keys()
+            g.world.update(g.dt, env)
+        self.assertLess(p.z, z0 - 0.5)
+
+    def test_click_near_enemy_attacks(self):
+        g = self._game()
+        p = g.world.player
+        foe = next(e for e in g.world.entities
+                   if getattr(e, "kind", "") in ("skeleton", "bandit",
+                                                 "captain"))
+        foe.x, foe.z = p.x, p.z + 1.4
+        p.attack_t = -1.0
+        p.stamina = 100.0
+        g.pick_world = lambda col, row: (foe.x, foe.z)
+        g._click_at(10, 10)
+        self.assertTrue(p.attacking)
 
 
 class TestTitleFlow(unittest.TestCase):

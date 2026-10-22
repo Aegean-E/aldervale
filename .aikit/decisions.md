@@ -33,3 +33,11 @@ Context, Decision and Consequences lines.
 - **Context**: Background-colour SGR doubles escape traffic and breaks on light terminal themes; the pixel-art look needs dense glyphs rather than filled blocks.
 - **Decision**: Every cell carries one 24-bit foreground colour and a ramp glyph chosen by luminance; the sky is a dithered gradient, never a background fill; `--no-color` degrades to the plain ramp.
 - **Consequences**: The game reads best on dark terminal themes (documented in the README) and frame emission stays under ~60 KB in the worst case.
+
+### ADR-005: Console-event mouse input, free-look camera, silhouetted high-density sprites
+- **Date**: 2026-10-22
+- **Status**: Accepted
+- **Context**: Players asked for mouse control, a genuine 3D camera and models that read as solid shapes instead of dithered noise; the terminal already polls console input records for keys.
+- **Decision**: Read MOUSE_EVENT records from the same console input queue (Quick Edit disabled) and expose `take_mouse()`; the camera gains a pitch axis (right-drag, clamped 0.12-0.62 rad) and click-to-walk uses the depth buffer for 3D picking; sprites bake at 36 cells/unit for actors across 20 yaw steps, flat-shaded (no dither) with a darkened silhouette outline pass.
+- **Consequences**: Mouse works in Windows Terminal and conhost but not on POSIX terminals yet (keyboard fully covers every action); sprite baking costs ~3.4 s at boot; the glyph output reads as clean outlined models instead of speckle.
+

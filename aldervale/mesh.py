@@ -14,6 +14,8 @@ from .buffer import pack_rgb
 RAMP = " .,:;-=+*#%@"
 AMBIENT = 0.34
 LIGHT_DIR = m3.normalize((0.30, 0.60, 0.62))
+OUTLINE_CHAR = ":"
+OUTLINE_DARKEN = 0.55
 _INF = float("inf")
 
 
@@ -233,13 +235,12 @@ def _raster_tri(chars, colors, zbuf, cw, ch, tri, color, lum, ramp, n_ramp):
             idx = row + x
             if d < zbuf[idx]:
                 zbuf[idx] = d
-                dith = ((x * 13 + y * 7) & 7) - 3.5
-                ci = base_idx + (dith if dith < 0.5 else 0.5)
+                ci = base_idx
                 if ci < 0:
                     ci = 0
                 elif ci >= n_ramp:
                     ci = n_ramp - 1
-                chars[idx] = ramp[int(ci)]
+                chars[idx] = ramp[ci]
                 colors[idx] = color
 
 
@@ -296,6 +297,7 @@ def bake_sprite(mesh, yaw=0.0, pitch=0.30, dist=9.0, f=140.0, aspect=0.5,
             )
             _raster_tri(gchars, gcolors, gzbuf, cw, ch, (p0, p1, p2), gl, 0.95, ramp, n_ramp)
             _raster_tri(gchars, gcolors, gzbuf, cw, ch, (p0, p2, p3), gl, 0.95, ramp, n_ramp)
+    _outline(chars, colors, cw, ch)
     box = _crop_bounds(chars, cw, ch) if crop else (0, 0, cw, ch)
     main = _pack_grid(chars, colors, cw, ch, box)
     glow = None
@@ -303,6 +305,30 @@ def bake_sprite(mesh, yaw=0.0, pitch=0.30, dist=9.0, f=140.0, aspect=0.5,
         glow = _pack_grid(gchars, gcolors, cw, ch, box)
     main.glow = glow
     return main
+
+
+def _outline(chars, colors, cw, ch):
+    """Darken the silhouette edge so models read as shapes, not noise."""
+    marks = []
+    for y in range(ch):
+        row = y * cw
+        up = row - cw
+        down = row + cw
+        for x in range(cw):
+            idx = row + x
+            if chars[idx] == " ":
+                continue
+            if ((x == 0 or chars[idx - 1] == " ")
+                    or (x == cw - 1 or chars[idx + 1] == " ")
+                    or (y == 0 or chars[up + x] == " ")
+                    or (y == ch - 1 or chars[down + x] == " ")):
+                marks.append(idx)
+    for idx in marks:
+        c = colors[idx]
+        chars[idx] = OUTLINE_CHAR
+        colors[idx] = pack_rgb(((c >> 16) & 255) * OUTLINE_DARKEN,
+                               ((c >> 8) & 255) * OUTLINE_DARKEN,
+                               (c & 255) * OUTLINE_DARKEN)
 
 
 def _crop_bounds(chars, cw, ch):
