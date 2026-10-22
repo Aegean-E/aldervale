@@ -1,45 +1,20 @@
 {
   "version": 1,
   "active_task": {
-    "task_id": "aldervale-3d-v1",
+    "task_id": "aldervale-models-v2",
     "last_phase": "implementation",
     "active_phase": 5,
     "status": "completed",
-    "updated_at": 1792686728.7637458,
+    "updated_at": 1792690211.978227,
     "impact_assessment": {
-      "why": "Players asked for mouse control, a real 3D camera and models that read as solid shapes rather than dithered noise",
-      "benefits": "Full 3D look (orbit/tilt/zoom), one-click walk-talk-attack, dramatically cleaner outlined models, visible loading progress",
-      "risks": "contract: term.take_mouse() and game.pick_world()/dt are public API; mouse is Windows-only (keyboard parity kept); dependency: console MOUSE_EVENT support, msvcrt fallback retained; state: none",
-      "mitigation": "8 new tests pin mouse normalization, orbit, zoom, picking, walk-to, click-attack and sprite outline/flat shading; full suite and gates green"
+      "why": "The user reported the character walking from mouse use and asked for models to look almost like real 3D models",
+      "benefits": "Drags no longer move the character; smooth shaded curved surfaces, cleaner dense silhouetted sprites that hold detail at distance, calmer ground shading",
+      "risks": "contract: Sprite gains lev levels for downsampling; face tuples carry a smooth flag; dependency: none; concurrency: none; state: none",
+      "mitigation": "8 new/updated tests (click release, drag cancel, flat-face single glyph, outline presence, Gouraud levels), full suite and gates green, boot 5.3s with progress display"
     },
-    "completed_at": 1792686728.8886335
+    "completed_at": 1792690212.1155314
   },
   "checkpoints": [
-    {
-      "task_id": "ascii-rpg-review-v1",
-      "phase": "implementation",
-      "phase_num": 3,
-      "description": "[1/1] Code review fixes: water fog scale, pack_rgb clamp, gold pickup list mutation, HUD bar overlap, dead game-state wiring, min terminal width; 6 failing-first regression tests added; checklists: passed",
-      "files_affected": [],
-      "status": "in_progress",
-      "timestamp": 1792648578.1004975,
-      "timestamp_str": "2026-10-22 08:56:18",
-      "impact_assessment": {
-        "why": "Review of the fresh renderer/gameplay code found six objective defects shipped by the initial build",
-        "benefits": "Distant water fogs correctly, no channel overflow at dusk, same-frame gold collection, readable HUD, proper death state machine, narrow-terminal safety",
-        "risks": "contract: pack_rgb now clamps (callers may rely on wrap? none do); dependency: none; concurrency: none, single-threaded loop; state: save format untouched",
-        "mitigation": "Failing-first tests pin each fix; full 57-test suite and aikit gates re-run green"
-      }
-    },
-    {
-      "task_id": "ascii-rpg-review-v1",
-      "phase": "completed",
-      "phase_num": 5,
-      "description": "Task 'ascii-rpg-review-v1' completed successfully.",
-      "status": "completed",
-      "timestamp": 1792648578.2319474,
-      "timestamp_str": "2026-10-22 08:56:18"
-    },
     {
       "task_id": "aldervale-lore-v1",
       "phase": "implementation",
@@ -264,6 +239,31 @@
       "status": "completed",
       "timestamp": 1792686728.888635,
       "timestamp_str": "2026-10-22 19:32:08"
+    },
+    {
+      "task_id": "aldervale-models-v2",
+      "phase": "implementation",
+      "phase_num": 3,
+      "description": "[1/1] Model fidelity pass: Gouraud vertex-normal shading for curved geometry, 56 cells/unit actor bakes (2.4x pixels), luminance-aware 2x2 downsampling in blit, click-on-release mouse (drags never walk), terrain light smoothing, richer geometry (knight gorget/pauldrons/visor cross/rivets/shield rim/blade highlight, wolf fangs/eye shine/tail tip, captain crown gems/cape hem, villager belts, window bars, castle arrow slits), camera default 6m; 88/88; gates 4/4; checklists: passed",
+      "files_affected": [],
+      "status": "in_progress",
+      "timestamp": 1792690211.978227,
+      "timestamp_str": "2026-10-22 20:30:11",
+      "impact_assessment": {
+        "why": "The user reported the character walking from mouse use and asked for models to look almost like real 3D models",
+        "benefits": "Drags no longer move the character; smooth shaded curved surfaces, cleaner dense silhouetted sprites that hold detail at distance, calmer ground shading",
+        "risks": "contract: Sprite gains lev levels for downsampling; face tuples carry a smooth flag; dependency: none; concurrency: none; state: none",
+        "mitigation": "8 new/updated tests (click release, drag cancel, flat-face single glyph, outline presence, Gouraud levels), full suite and gates green, boot 5.3s with progress display"
+      }
+    },
+    {
+      "task_id": "aldervale-models-v2",
+      "phase": "completed",
+      "phase_num": 5,
+      "description": "Task 'aldervale-models-v2' completed successfully.",
+      "status": "completed",
+      "timestamp": 1792690212.115533,
+      "timestamp_str": "2026-10-22 20:30:12"
     }
   ]
 }

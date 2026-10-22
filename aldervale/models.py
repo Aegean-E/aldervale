@@ -85,6 +85,7 @@ def knight(pose=None, palette=None):
         b.box(0.13 * side, 0.24, 0.01, 0.15, 0.44, 0.16, pal["steel"], rx=ang * 1.12, pivot=hip)
         b.box(0.13 * side, 0.47, 0.10, 0.14, 0.10, 0.07, pal["steel"], rx=ang * 1.12, pivot=hip)
         b.box(0.13 * side, 0.07, 0.10, 0.17, 0.14, 0.30, pal["leather"], rx=ang * 1.12, pivot=hip)
+        b.box(0.13 * side, 0.10, 0.24, 0.14, 0.05, 0.06, pal["steel_d"], rx=ang * 1.12, pivot=hip)
     lp = (0.0, 0.9, 0.0)
 
     def part(cx, cy, cz, sx, sy, sz, color, ry=0.0, rx=0.0, rz=0.0, emissive=False):
@@ -104,6 +105,10 @@ def knight(pose=None, palette=None):
     part(0.0, 1.17, -0.158, 0.34, 0.50, 0.02, pal["trim_d"])
     part(-0.32, 1.41, 0.0, 0.22, 0.16, 0.27, pal["steel_d"], ry=0.16)
     part(0.32, 1.41, 0.0, 0.22, 0.16, 0.27, pal["steel_d"], ry=-0.16)
+    part(-0.34, 1.33, 0.0, 0.20, 0.09, 0.23, pal["steel"], ry=0.16)
+    part(0.34, 1.33, 0.0, 0.20, 0.09, 0.23, pal["steel"], ry=-0.16)
+    part(0.0, 1.45, 0.0, 0.30, 0.06, 0.24, pal["steel_d"])
+    part(0.0, 1.18, -0.163, 0.04, 0.46, 0.02, pal["steel"])
     arm_l = p["arm_l"]
     arm_r = p["arm_r"]
     for side, ang in ((-1.0, arm_l), (1.0, arm_r)):
@@ -112,6 +117,9 @@ def knight(pose=None, palette=None):
         b.box(0.36 * side, 0.95, 0.01, 0.15, 0.32, 0.17, pal["steel"], rx=ang * 1.15, pivot=sh)
     part(0.0, 1.56, 0.01, 0.27, 0.27, 0.27, pal["steel"])
     part(0.0, 1.57, 0.147, 0.19, 0.05, 0.01, EYE_DARK)
+    part(0.0, 1.52, 0.148, 0.03, 0.10, 0.012, EYE_DARK)
+    part(-0.13, 1.60, 0.14, 0.03, 0.03, 0.01, pal["steel_d"])
+    part(0.13, 1.60, 0.14, 0.03, 0.03, 0.01, pal["steel_d"])
     part(0.0, 1.75, 0.0, 0.05, 0.14, 0.31, pal["plume"])
     part(0.0, 1.81, -0.11, 0.05, 0.20, 0.16, pal["plume"], rz=-0.25)
     sw = _sword(pal)
@@ -123,6 +131,16 @@ def knight(pose=None, palette=None):
     b.box(-0.485, 1.14, 0.05, 0.012, 0.38, 0.10, pal["gold"], ry=0.12,
           rx=arm_l * 0.6, pivot=shl)
     b.box(-0.485, 1.22, 0.05, 0.012, 0.10, 0.30, pal["gold"], ry=0.12,
+          rx=arm_l * 0.6, pivot=shl)
+    b.box(-0.482, 1.37, 0.05, 0.012, 0.06, 0.42, pal["gold"], ry=0.12,
+          rx=arm_l * 0.6, pivot=shl)
+    b.box(-0.482, 0.91, 0.05, 0.012, 0.06, 0.42, pal["gold"], ry=0.12,
+          rx=arm_l * 0.6, pivot=shl)
+    b.box(-0.482, 1.14, -0.14, 0.012, 0.52, 0.06, pal["gold"], ry=0.12,
+          rx=arm_l * 0.6, pivot=shl)
+    b.box(-0.482, 1.14, 0.24, 0.012, 0.52, 0.06, pal["gold"], ry=0.12,
+          rx=arm_l * 0.6, pivot=shl)
+    b.box(-0.495, 1.14, 0.05, 0.02, 0.10, 0.10, pal["gold"], ry=0.12,
           rx=arm_l * 0.6, pivot=shl)
     if p["dead"] > 0.0:
         return _dead_wrap(b).build()
@@ -137,6 +155,8 @@ def _sword(pal, blade_len=0.95, blade_w=0.10, blade=None):
     s.box(0.0, 0.08 + blade_len * 0.5, 0.0, 0.045, blade_len, blade_w,
           blade if blade is not None else pal.get("blade",
                                                   pal.get("steel", STEEL)))
+    s.box(0.026, 0.08 + blade_len * 0.5, 0.0, 0.006, blade_len * 0.96,
+          blade_w * 0.55, C(238, 242, 250))
     return s.build()
 
 
@@ -181,8 +201,13 @@ def wolf(pose=None):
     b.box(0.07, 0.82, 0.50, 0.06, 0.11, 0.05, GREY_FUR_D)
     b.box(-0.07, 0.70, 0.705, 0.05, 0.05, 0.02, EYE_DARK)
     b.box(0.07, 0.70, 0.705, 0.05, 0.05, 0.02, EYE_DARK)
+    b.box(-0.075, 0.71, 0.716, 0.016, 0.016, 0.006, C(225, 232, 240))
+    b.box(0.065, 0.71, 0.716, 0.016, 0.016, 0.006, C(225, 232, 240))
+    b.box(-0.045, 0.578, 0.812, 0.022, 0.04, 0.02, C(240, 238, 230))
+    b.box(0.045, 0.578, 0.812, 0.022, 0.04, 0.02, C(240, 238, 230))
     b.box(0.0, 0.66, -0.56, 0.09, 0.09, 0.46, GREY_FUR, rx=0.45,
           pivot=(0.0, 0.62, -0.40))
+    b.box(0.0, 0.735, -0.74, 0.10, 0.10, 0.09, C(206, 204, 192))
     lunge_f = 1.0 * p["lunge"]
     for x, z, key in ((-0.11, 0.34, "leg_fl"), (0.11, 0.34, "leg_fr"),
                       (-0.11, -0.36, "leg_rl"), (0.11, -0.36, "leg_rr")):
@@ -236,6 +261,9 @@ def skeleton(pose=None, captain=False):
             b.cone(hx * s, 1.60 * s, 0.0, 0.035 * s, 0.22 * s, 5,
                    C(150, 130, 96), rz=0.5 if hx else 0.0, rx=0.5 if not hx else 0.0,
                    ry=0.5 if hx else 0.0)
+            b.box(hx * s, 1.80 * s, 0.0, 0.03 * s, 0.03 * s, 0.03 * s,
+                  C(198, 58, 66), emissive=True)
+        part(0.0, 0.92 * s, -0.155 * s, 0.50 * s, 0.05 * s, 0.03 * s, GOLD_D)
         part(0.0, 1.22 * s, -0.14 * s, 0.5 * s, 0.72 * s, 0.025 * s, DARKRED)
         part(0.0, 1.5 * s, -0.14 * s, 0.42 * s, 0.14 * s, 0.028 * s, C(70, 18, 22))
         great = _sword(dict(steel=RUST, steel_d=RUST, trim=GOLD_D, gold=GOLD_D,
@@ -321,6 +349,7 @@ def villager(pose=None, variant=0, role="peasant"):
         b.box(cx, cy, cz, sx, sy, sz, color, ry=ry, rx=rx + lean, pivot=lp)
 
     part(0.0, 1.14, 0.0, 0.44, 0.48, 0.27, tunic)
+    part(0.0, 0.92, 0.0, 0.45, 0.06, 0.28, LEATHER_D)
     for side in (-1.0, 1.0):
         sh = (0.27 * side, 1.32, 0.0)
         b.box(0.28 * side, 1.1, 0.0, 0.12, 0.34, 0.14, tunic, rx=p["leg_r"] * 0.4 * -side,
@@ -487,6 +516,7 @@ def house(variant=0):
     b.box(0.0, 2.32, 1.9 * scale, 4.6 * scale, 0.16, 0.14, WOOD_D)
     b.box(0.9 * scale * mirror, 1.15, 1.93 * scale, 0.95, 1.5, 0.1, WOOD)
     b.box(0.45 * scale * mirror, 1.15, 1.94 * scale, 0.08, 1.4, 0.06, WOOD_D)
+    b.box(1.30 * scale * mirror, 1.15, 1.99 * scale, 0.05, 0.08, 0.03, GOLD_D)
     for wx in (-1.55, 1.0):
         if variant == 1 and wx > 0:
             wx = 1.75
@@ -495,6 +525,8 @@ def house(variant=0):
         b.box(wx * scale * mirror, 1.62, 1.94 * scale, 0.5, 0.5, 0.03,
               C(255, 196, 110), emissive=True)
         b.box((wx - 0.38) * scale * mirror, 1.62, 1.92 * scale, 0.1, 0.7, 0.08, WOOD_D)
+        b.box(wx * scale * mirror, 1.62, 1.956 * scale, 0.028, 0.56, 0.03, WOOD_D)
+        b.box(wx * scale * mirror, 1.62, 1.956 * scale, 0.56, 0.028, 0.03, WOOD_D)
     ridge = 3.42
     b.box(0.0, 2.85, 1.02 * scale, 5.4 * scale, 0.16, 2.9 * scale, STRAW,
           rx=0.54, pivot=(0.0, ridge, 0.0))
@@ -640,6 +672,9 @@ def castle():
             b.cone(sx * half, 9.0, sz * half, 2.75, 3.4, 8, ROOF)
             b.box(sx * half, 9.4, sz * half, 0.06, 2.0, 0.06, WOOD_D)
     b.box(0.0, 4.6, 0.0, 6.4, 9.2, 6.4, STONE)
+    for sx in (-1.6, 0.0, 1.6):
+        b.box(sx, 5.6, 3.21, 0.10, 0.52, 0.03, C(30, 28, 26))
+        b.box(sx, 7.4, 3.21, 0.10, 0.52, 0.03, C(30, 28, 26))
     b.box(0.0, 9.2, 0.0, 7.0, 0.5, 7.0, STONE_D)
     b.cylinder(0.0, 0.0, 0.0, 1.9, 12.5, 8, STONE_D)
     b.cone(0.0, 12.5, 0.0, 2.35, 3.0, 8, ROOF)

@@ -36,7 +36,7 @@ class Game:
         self.state = "title"
         self.running = True
         self.cam_yaw = math.pi
-        self.cam_dist = 7.0
+        self.cam_dist = 6.0
         self.cam = None
         self.menu_sel = 0
         self.dialogue = None
@@ -202,17 +202,27 @@ class Game:
             return
         if kind == "wheel":
             if wheel > 0:
-                self.cam_dist = max(4.0, self.cam_dist - 0.8)
+                self.cam_dist = max(3.5, self.cam_dist - 0.8)
             else:
                 self.cam_dist = min(15.0, self.cam_dist + 0.8)
             return
         if kind == "rdown":
             self._drag = (col, row)
+            self._click_pending = None
             return
         if kind == "up":
+            if self._click_pending is not None:
+                px, py = self._click_pending
+                if abs(col - px) <= 2 and abs(row - py) <= 2:
+                    self._click_at(col, row)
+                self._click_pending = None
             self._drag = None
             return
         if kind == "move":
+            if self._click_pending is not None:
+                px, py = self._click_pending
+                if abs(col - px) > 2 or abs(row - py) > 2:
+                    self._click_pending = None
             if self._drag is not None:
                 dx = col - self._drag[0]
                 dy = row - self._drag[1]
@@ -222,7 +232,9 @@ class Game:
             self._drag = (col, row) if (buttons & 0x2) else None
             return
         if kind == "ldown":
-            self._click_at(col, row)
+            if self._drag is None:
+                self._click_pending = (col, row)
+            return
 
     def pick_world(self, col, row):
         """Screen cell to a world point using the depth buffer."""
@@ -411,7 +423,7 @@ class Game:
             self._try_interact()
             return
         if key in ("+", "="):
-            self.cam_dist = max(4.0, self.cam_dist - 0.7)
+            self.cam_dist = max(3.5, self.cam_dist - 0.7)
             return
         if key == "-":
             self.cam_dist = min(13.0, self.cam_dist + 0.7)

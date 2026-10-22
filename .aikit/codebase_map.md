@@ -8,9 +8,9 @@
 ## 📊 Codebase Metrics
 - **Total Python Modules**: `20`
 - **Total Classes**: `45`
-- **Total Top-Level Functions**: `107`
-- **Total Class Methods**: `243`
-- **Total Source Lines**: `6178`
+- **Total Top-Level Functions**: `108`
+- **Total Class Methods**: `245`
+- **Total Source Lines**: `6357`
 
 ---
 
@@ -59,7 +59,7 @@
 ### [`aldervale/buffer.py`](aldervale/buffer.py)
 > *Char-cell frame buffer: per-cell glyph, 24-bit colour and depth, diff flush.*
 
-**Size**: `220` lines (`7184` bytes)
+**Size**: `262` lines (`8976` bytes)
 
 **Classes:**
 - `class Screen` - *A w x h grid of characters with colour, depth and diff-based output.*
@@ -120,7 +120,7 @@
 ### [`aldervale/game.py`](aldervale/game.py)
 > *Game shell: states, input, camera, main loop, demo autopilot.*
 
-**Size**: `577` lines (`20321` bytes)
+**Size**: `589` lines (`20868` bytes)
 
 **Classes:**
 - `class Game` - *Drives one play session from title screen to victory.*
@@ -209,18 +209,18 @@
 ### [`aldervale/mesh.py`](aldervale/mesh.py)
 > *Low-poly mesh construction and the mesh-to-ASCII sprite baker.*
 
-**Size**: `363` lines (`13121` bytes)
+**Size**: `413` lines (`15084` bytes)
 
 **Classes:**
 - `class Sprite` - *A baked char-cell image with per-cell packed RGB colour.*
-  - Method `.__init__(chars, colors, glow)`
+  - Method `.__init__(chars, colors, lev, glow)`
   - Method `.filled()`
 - `class Mesh` - *Static geometry: vertices plus quad faces with colour and emissive flag.*
   - Method `.__init__(verts, faces)`
 - `class MeshBuilder` - *Assembles transformed primitives into one Mesh.*
   - Method `.__init__()`
   - Method `.build()`
-  - Method `._quad(p0, p1, p2, p3, color, emissive)`
+  - Method `._quad(p0, p1, p2, p3, color, emissive, smooth)`
   - Method `.quad(p0, p1, p2, p3, color, emissive)`
   - Method `._rot(ry, rx, rz, pivot)`
   - Method `.box(cx, cy, cz, sx, sy, sz, color, ry, rx, rz, pivot, emissive)` - *Axis-aligned box, optionally rotated about a pivot point.*
@@ -231,8 +231,9 @@
   - Method `.merge(mesh, matrix, offset, pivot)` - *Append mesh, optionally transformed about pivot then translated.*
 
 **Functions:**
-- `def _raster_tri(chars, colors, zbuf, cw, ch, tri, color, lum, ramp, n_ramp)` - *Scanline-fill one projected triangle with z-test and ramp dithering.*
+- `def _raster_tri(chars, colors, zbuf, cw, ch, tri, color, ramp, n_ramp)` - *Scanline-fill one projected triangle: z-test plus Gouraud luminance.*
 - `def bake_sprite(mesh, yaw, pitch, dist, f, aspect, canvas, light, ramp, crop)` - *Bake a mesh into a Sprite viewed from yaw/pitch at the given scale.*
+- `def _smooth_normals(mesh)` - *Position-keyed vertex normals of smooth faces, for Gouraud shading.*
 - `def _outline(chars, colors, cw, ch)` - *Darken the silhouette edge so models read as shapes, not noise.*
 - `def _crop_bounds(chars, cw, ch)` - *Bounding box (x0, y0, x1, y1) of non-space cells, or a 1x1 fallback.*
 - `def _pack_grid(chars, colors, cw, ch, box)` - *Slice flat buffers into row-lists limited to the given crop box.*
@@ -242,7 +243,7 @@
 ### [`aldervale/models.py`](aldervale/models.py)
 > *Every 3D model in the realm: actors, creatures, flora and architecture.*
 
-**Size**: `685` lines (`28225` bytes)
+**Size**: `720` lines (`30407` bytes)
 
 **Functions:**
 - `def C(r, g, b)`
@@ -381,7 +382,7 @@
 ### [`aldervale/terrain.py`](aldervale/terrain.py)
 > *Procedural island heightfield with biome colours, baked light and water.*
 
-**Size**: `264` lines (`9529` bytes)
+**Size**: `286` lines (`10305` bytes)
 
 **Classes:**
 - `class Terrain` - *A square island world grid sampled at one unit per cell.*
@@ -391,6 +392,7 @@
   - Method `._stamp_path(a, b)`
   - Method `._stamp_ring(cx, cz, r)`
   - Method `._paint(grass_mix, forest, gres)`
+  - Method `._smooth_lights()` - *Blur the char-luminance grid so ground glyphs read as coherent shade.*
   - Method `.in_bounds(x, z)`
   - Method `.height(x, z)`
   - Method `.color(x, z)`
@@ -519,7 +521,7 @@
 ### [`tests/test_integration.py`](tests/test_integration.py)
 > *Integration tier: world generation, quest chain, rendering and the CLI.*
 
-**Size**: `692` lines (`23500` bytes)
+**Size**: `710` lines (`24220` bytes)
 
 **Classes:**
 - `class TestTerrain`
@@ -593,6 +595,7 @@
   - Method `.test_wheel_zooms()`
   - Method `.test_pick_rejects_sky()`
   - Method `.test_click_sets_walk_target()`
+  - Method `.test_click_drag_does_not_walk()`
   - Method `.test_walk_target_carries_player()`
   - Method `.test_click_near_enemy_attacks()`
 - `class TestTitleFlow` - *Starting a new game from the title screen through the poll path.*

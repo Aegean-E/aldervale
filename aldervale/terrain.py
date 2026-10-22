@@ -206,6 +206,28 @@ class Terrain:
                 lrow[x] = max(0, min(255, int(light * 255)))
             self.colors.append(crow)
             self.lights.append(lrow)
+        self._smooth_lights()
+
+
+    def _smooth_lights(self):
+        """Blur the char-luminance grid so ground glyphs read as coherent shade."""
+        W = self.W
+        src = self.lights
+        out = []
+        for z in range(W):
+            cur = src[z]
+            prev = src[z - 1] if z > 0 else cur
+            nxt = src[z + 1] if z < W - 1 else cur
+            row = array("B", bytes(W))
+            for x in range(W):
+                xm = x - 1 if x > 0 else x
+                xp = x + 1 if x < W - 1 else x
+                v = (prev[xm] + 2 * prev[x] + prev[xp]
+                     + 2 * (cur[xm] + 2 * cur[x] + cur[xp])
+                     + nxt[xm] + 2 * nxt[x] + nxt[xp]) // 16
+                row[x] = v
+            out.append(row)
+        self.lights = out
 
     def in_bounds(self, x, z):
         return 0 <= int(x) < self.W and 0 <= int(z) < self.W

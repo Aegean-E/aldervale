@@ -625,9 +625,27 @@ class TestMouse(unittest.TestCase):
             if target:
                 break
         self.assertIsNotNone(target, "no pickable ground cell found")
-        g.term.queue_mouse([("ldown", target[0], target[1], 1, 0)])
+        g.term.queue_mouse([("ldown", target[0], target[1], 1, 0),
+                            ("up", target[0], target[1], 0, 0)])
         g._handle_keys()
         self.assertIsNotNone(g.walk_target)
+
+    def test_click_drag_does_not_walk(self):
+        g = self._game()
+        target = None
+        for row in range(5, g.h - 6):
+            for col in range(5, g.w - 5):
+                if g.pick_world(col, row) is not None:
+                    target = (col, row)
+                    break
+            if target:
+                break
+        self.assertIsNotNone(target)
+        g.term.queue_mouse([("ldown", target[0], target[1], 1, 0),
+                            ("move", target[0] + 6, target[1] + 3, 1, 0),
+                            ("up", target[0] + 6, target[1] + 3, 0, 0)])
+        g._handle_keys()
+        self.assertIsNone(g.walk_target)
 
     def test_walk_target_carries_player(self):
         g = self._game()

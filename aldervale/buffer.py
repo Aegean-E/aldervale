@@ -7,6 +7,8 @@ the cells that changed since the previous frame.
 
 FAR = 1.0e9
 NEAREST = -1.0
+RAMP = " .,:;-=+*#%@"
+_RAMP_INDEX = {ch: i for i, ch in enumerate(RAMP)}
 
 
 def pack_rgb(r, g, b):
@@ -130,12 +132,15 @@ class Screen:
         fr, fgc, fb = flash[1] if flash else (0, 0, 0)
         step_x = sw / target_cols
         step_y = sh / target_rows
+        downsample = target_rows < sh - 0.5
+        lev_rows = sprite.lev if downsample else None
         for ty in range(int(target_rows)):
             sy = int(ty * step_y)
             if sy >= sh:
                 sy = sh - 1
             srow = sprite.chars[sy]
             prow = sprite.colors[sy]
+            sy2 = sy + 1 if downsample and sy + 1 < sh else sy
             py = y0 + ty
             if py < 0 or py >= self.h:
                 continue
@@ -146,9 +151,47 @@ class Screen:
                 sx = int(txi * step_x)
                 if sx >= sw:
                     sx = sw - 1
-                ch = srow[sx]
-                if ch == " ":
-                    continue
+                if downsample:
+                    sx2 = sx + 1 if sx + 1 < sw else sx
+                    levs = []
+                    cols = []
+                    chars4 = []
+                    for yy in (sy, sy2):
+                        lr = lev_rows[yy]
+                        cr = sprite.chars[yy]
+                        pr = sprite.colors[yy]
+                        lv = lr[sx]
+                        if lv >= 0:
+                            levs.append(lv)
+                            cols.append(pr[sx])
+                            chars4.append(cr[sx])
+                        lv = lr[sx2]
+                        if lv >= 0:
+                            levs.append(lv)
+                            cols.append(pr[sx2])
+                            chars4.append(cr[sx2])
+                    if not levs:
+                        continue
+                    if len(levs) == 4:
+                        mean = (levs[0] + levs[1] + levs[2] + levs[3]) * 0.25
+                        ch = RAMP[int(mean + 0.5)]
+                        best = 0
+                        for i in range(1, 4):
+                            if levs[i] > levs[best]:
+                                best = i
+                        c = cols[best]
+                    else:
+                        best = 0
+                        for i in range(1, len(levs)):
+                            if levs[i] > levs[best]:
+                                best = i
+                        ch = chars4[best]
+                        c = cols[best]
+                else:
+                    ch = srow[sx]
+                    if ch == " ":
+                        continue
+                    c = prow[sx]
                 if alpha < 0.99 and ((txi * 73 + ty * 151) & 255) > alpha * 255:
                     continue
                 px = x0 + txi
@@ -156,7 +199,6 @@ class Screen:
                     continue
                 if depth > cdrow[px]:
                     continue
-                c = prow[sx]
                 r = ((c >> 16) & 255) * tr
                 g = ((c >> 8) & 255) * tg
                 b = (c & 255) * tb
