@@ -1,40 +1,20 @@
 {
   "version": 1,
   "active_task": {
-    "task_id": "aldervale-input-v1",
+    "task_id": "aldervale-res-v1",
     "last_phase": "implementation",
     "active_phase": 5,
     "status": "completed",
-    "updated_at": 1792676237.9877021,
+    "updated_at": 1792684283.6609704,
     "impact_assessment": {
-      "why": "Holding WASD did nothing (keys were edge-dispatched to a handler with no movement branches); SPACE and menu confirms compared against a token the terminal never emits; screen-space dither crawled into noise in motion; get_terminal_size reported the scrollback buffer so rows wrapped",
-      "benefits": "Character moves continuously and smoothly, arrows are a full control scheme, sprint works, attack/confirm work, terrain texture is stable, frame size fits the viewport",
-      "risks": "contract: term.poll() replaces per-key reads for the game loop (read_key stays as POSIX primitive); dependency: ctypes structures defined lazily on Windows only; concurrency: none; state: none",
-      "mitigation": "Failing-first held-control tests, full 75-test suite, gates green, and the real PLAY.bat verified end-to-end (WindowsTerminal+cmd+python processes running the game)"
+      "why": "The game rendered at the terminal default 120x30 (~3.6k cells) and actor sprites baked at 24 cells/unit; the user asked for higher resolution",
+      "benefits": "Maximized launch nearly doubles visible cells (209x51 verified), user window size scales up to 260x110, characters/creatures carry 25 percent more baked detail, and the event-input path now self-validates with a guaranteed fallback",
+      "risks": "contract: size caps and --width/--height ranges widened; dependency: wt -w/--maximized needs a modern Windows Terminal (verified on this machine, console fallback exists); concurrency: none; state: none",
+      "mitigation": "Live API probe confirmed srWindow 209x51 in the maximized window; benchmarks 24ms at 200x90 and 31ms at 250x105 keep the 30fps cap; full suite and gates green"
     },
-    "completed_at": 1792676238.1357477
+    "completed_at": 1792684283.8004398
   },
   "checkpoints": [
-    {
-      "task_id": "ascii-rpg-v1",
-      "phase": "implementation",
-      "phase_num": 3,
-      "description": "[3/5] RPG systems: items/inventory/equipment, XP levels, enemy drops, shrine healing, captain quest chain",
-      "files_affected": [],
-      "status": "in_progress",
-      "timestamp": 1792625107.6149306,
-      "timestamp_str": "2026-10-22 02:25:07"
-    },
-    {
-      "task_id": "ascii-rpg-v1",
-      "phase": "implementation",
-      "phase_num": 3,
-      "description": "[4/5] Shell: HUD/minimap/menus, game states, camera, demo and benchmark modes, CLI with error triads",
-      "files_affected": [],
-      "status": "in_progress",
-      "timestamp": 1792625107.745045,
-      "timestamp_str": "2026-10-22 02:25:07"
-    },
     {
       "task_id": "ascii-rpg-v1",
       "phase": "verification",
@@ -253,6 +233,31 @@
       "status": "completed",
       "timestamp": 1792676238.135749,
       "timestamp_str": "2026-10-22 16:37:18"
+    },
+    {
+      "task_id": "aldervale-res-v1",
+      "phase": "implementation",
+      "phase_num": 3,
+      "description": "[1/1] Resolution upgrade: viewport caps 260x110, maximized dedicated WT window in PLAY.bat (-w -1 --maximized, verified live at 209x51), denser actor sprite baking (24->30 cells/unit), input hardening (typed handles, console-handle validation, msvcrt fallback), title-flow tests; 78/78; gates 4/4; checklists: passed",
+      "files_affected": [],
+      "status": "in_progress",
+      "timestamp": 1792684283.6609704,
+      "timestamp_str": "2026-10-22 18:51:23",
+      "impact_assessment": {
+        "why": "The game rendered at the terminal default 120x30 (~3.6k cells) and actor sprites baked at 24 cells/unit; the user asked for higher resolution",
+        "benefits": "Maximized launch nearly doubles visible cells (209x51 verified), user window size scales up to 260x110, characters/creatures carry 25 percent more baked detail, and the event-input path now self-validates with a guaranteed fallback",
+        "risks": "contract: size caps and --width/--height ranges widened; dependency: wt -w/--maximized needs a modern Windows Terminal (verified on this machine, console fallback exists); concurrency: none; state: none",
+        "mitigation": "Live API probe confirmed srWindow 209x51 in the maximized window; benchmarks 24ms at 200x90 and 31ms at 250x105 keep the 30fps cap; full suite and gates green"
+      }
+    },
+    {
+      "task_id": "aldervale-res-v1",
+      "phase": "completed",
+      "phase_num": 5,
+      "description": "Task 'aldervale-res-v1' completed successfully.",
+      "status": "completed",
+      "timestamp": 1792684283.800441,
+      "timestamp_str": "2026-10-22 18:51:23"
     }
   ]
 }

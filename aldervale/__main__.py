@@ -53,14 +53,14 @@ def run(argv=None):
         return _fail("--demo needs a positive number of seconds.",
                      "The demo mode exits when its timer expires.",
                      "Retry with e.g. --demo 9.")
-    if args.width is not None and not 40 <= args.width <= 240:
-        return _fail("--width must be between 40 and 240.",
+    if args.width is not None and not 40 <= args.width <= 320:
+        return _fail("--width must be between 40 and 320.",
                      "The renderer is sized in character cells.",
-                     "Retry with a value in range, e.g. --width 132.")
-    if args.height is not None and not 20 <= args.height <= 90:
-        return _fail("--height must be between 20 and 90.",
+                     "Retry with a value in range, e.g. --width 200.")
+    if args.height is not None and not 20 <= args.height <= 110:
+        return _fail("--height must be between 20 and 110.",
                      "The renderer is sized in character cells.",
-                     "Retry with a value in range, e.g. --height 60.")
+                     "Retry with a value in range, e.g. --height 90.")
     from .game import Game
     game = Game(seed=args.seed, width=args.width, height=args.height,
                 fps=args.fps, color=not args.no_color,

@@ -105,6 +105,8 @@ class Terminal:
         self._h_out = None
         self._irec = None
         self._csbi = None
+        self._kb_fallback = False
+        self._kb_misses = 0
 
     def __enter__(self):
         self.start()
@@ -133,9 +135,13 @@ class Terminal:
 
     def _open_windows(self):
         kernel32 = ctypes.windll.kernel32
+        kernel32.GetStdHandle.restype = ctypes.c_void_p
+        kernel32.GetConsoleMode.argtypes = [ctypes.c_void_p,
+                                            ctypes.POINTER(ctypes.c_uint32)]
+        kernel32.SetConsoleMode.argtypes = [ctypes.c_void_p, ctypes.c_uint32]
         h_out = kernel32.GetStdHandle(-11)
         mode = ctypes.c_uint32()
-        if kernel32.GetConsoleMode(h_out, ctypes.byref(mode)) == 0:
+        if not h_out or kernel32.GetConsoleMode(h_out, ctypes.byref(mode)) == 0:
             raise TerminalError(
                 "What: no console output handle is available.\n"
                 "Why: ALDERVALE draws with ANSI escapes and needs a real console.\n"
@@ -181,8 +187,30 @@ class Terminal:
                         ("dwMaximumWindowSize", COORD)]
 
         kernel32 = ctypes.windll.kernel32
-        self._h_in = kernel32.GetStdHandle(-10)
-        self._h_out = kernel32.GetStdHandle(-11)
+        h_in = kernel32.GetStdHandle(-10)
+        h_out = kernel32.GetStdHandle(-11)
+        if not h_in or not h_out:
+            self._irec = None
+            return
+        if kernel32.GetFileType(h_in) != 2:
+            self._irec = None
+            return
+        in_mode = ctypes.c_uint32()
+        if kernel32.GetConsoleMode(h_in, ctypes.byref(in_mode)) == 0:
+            self._irec = None
+            return
+        kernel32.GetNumberOfConsoleInputEvents.argtypes = [
+            ctypes.c_void_p, ctypes.POINTER(ctypes.c_uint32)]
+        kernel32.GetNumberOfConsoleInputEvents.restype = ctypes.c_int
+        kernel32.ReadConsoleInputW.argtypes = [
+            ctypes.c_void_p, ctypes.POINTER(INPUT_RECORD), ctypes.c_uint32,
+            ctypes.POINTER(ctypes.c_uint32)]
+        kernel32.ReadConsoleInputW.restype = ctypes.c_int
+        kernel32.GetConsoleScreenBufferInfo.argtypes = [
+            ctypes.c_void_p, ctypes.POINTER(CONSOLE_SCREEN_BUFFER_INFO)]
+        kernel32.GetConsoleScreenBufferInfo.restype = ctypes.c_int
+        self._h_in = h_in
+        self._h_out = h_out
         self._irec = INPUT_RECORD
         self._csbi = CONSOLE_SCREEN_BUFFER_INFO
 
@@ -228,7 +256,7 @@ class Terminal:
         """Return (pressed, held): new key tokens and currently held ones."""
         if not self._is_tty:
             return [], set()
-        if _WIN and self._irec is not None:
+        if _WIN and self._irec is not None and not self._kb_fallback:
             kernel32 = ctypes.windll.kernel32
             n = ctypes.c_uint32()
             while kernel32.GetNumberOfConsoleInputEvents(
@@ -252,19 +280,34 @@ class Terminal:
                         self._last_seen[tok] = time.monotonic()
                     else:
                         self._held.discard(tok)
-        else:
-            now = time.monotonic()
-            while True:
-                k = self.read_key()
-                if k is None:
-                    break
-                if k not in self._held:
-                    self._pressed_buf.append(k)
-                self._held.add(k)
-                self._last_seen[k] = now
-            for k in list(self._held):
-                if self._last_seen.get(k, 0.0) < now - _HOLD_EXPIRY:
-                    self._held.discard(k)
+            if not self._pressed_buf:
+                try:
+                    import msvcrt
+
+                    if msvcrt.kbhit():
+                        self._kb_misses += 1
+                        if self._kb_misses >= 3:
+                            self._kb_fallback = True
+                except (ImportError, OSError):
+                    self._kb_fallback = True
+            else:
+                self._kb_misses = 0
+            if not self._kb_fallback:
+                pressed = self._pressed_buf
+                self._pressed_buf = []
+                return pressed, set(self._held)
+        now = time.monotonic()
+        while True:
+            k = self.read_key()
+            if k is None:
+                break
+            if k not in self._held:
+                self._pressed_buf.append(k)
+            self._held.add(k)
+            self._last_seen[k] = now
+        for k in list(self._held):
+            if self._last_seen.get(k, 0.0) < now - _HOLD_EXPIRY:
+                self._held.discard(k)
         pressed = self._pressed_buf
         self._pressed_buf = []
         return pressed, set(self._held)

@@ -297,7 +297,20 @@ class TestReviewRegressions(unittest.TestCase):
         g.term = TinyTerm()
         g._open_screen()
         self.assertGreaterEqual(g.w, 40)
-        self.assertLessEqual(g.w, 190)
+        self.assertLessEqual(g.w, 260)
+
+    def test_terminal_uses_large_viewport(self):
+        from aldervale.game import Game
+
+        class BigTerm:
+            def size(self):
+                return (250, 106)
+
+        g = Game(seed=1)
+        g.term = BigTerm()
+        g._open_screen()
+        self.assertEqual(g.w, 250)
+        self.assertEqual(g.h, 105)
 
 
 class TestStoryData(unittest.TestCase):

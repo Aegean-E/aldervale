@@ -24,7 +24,7 @@ if "%~1"=="--version" (
 )
 where wt.exe >nul 2>nul
 if errorlevel 1 goto :plain
-wt.exe -d "%CD%" --title ALDERVALE %COMSPEC% /k %RUNCMD% -m aldervale
+wt.exe -w -1 --maximized -d "%CD%" --title ALDERVALE %COMSPEC% /k %RUNCMD% -m aldervale
 exit /b 0
 
 :plain

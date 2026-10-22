@@ -7,10 +7,10 @@
 
 ## 📊 Codebase Metrics
 - **Total Python Modules**: `20`
-- **Total Classes**: `42`
+- **Total Classes**: `43`
 - **Total Top-Level Functions**: `105`
-- **Total Class Methods**: `222`
-- **Total Source Lines**: `5761`
+- **Total Class Methods**: `225`
+- **Total Source Lines**: `5850`
 
 ---
 
@@ -26,7 +26,7 @@
 ### [`aldervale/__main__.py`](aldervale/__main__.py)
 > *ALDERVALE command line entry point.*
 
-**Size**: `179` lines (`6554` bytes)
+**Size**: `179` lines (`6556` bytes)
 
 **Functions:**
 - `def _build_parser()`
@@ -120,7 +120,7 @@
 ### [`aldervale/game.py`](aldervale/game.py)
 > *Game shell: states, input, camera, main loop, demo autopilot.*
 
-**Size**: `479` lines (`16756` bytes)
+**Size**: `479` lines (`16758` bytes)
 
 **Classes:**
 - `class Game` - *Drives one play session from title screen to victory.*
@@ -156,7 +156,7 @@
 ### [`aldervale/hud.py`](aldervale/hud.py)
 > *HUD and menu rendering: bars, minimap, dialogue, shop, inventory, titles.*
 
-**Size**: `366` lines (`14422` bytes)
+**Size**: `366` lines (`14435` bytes)
 
 **Classes:**
 - `class ItemStub`
@@ -348,7 +348,7 @@
 ### [`aldervale/term.py`](aldervale/term.py)
 > *Terminal control: VT100 setup, polled key input and frame output.*
 
-**Size**: `327` lines (`10941` bytes)
+**Size**: `370` lines (`12836` bytes)
 
 **Classes:**
 - `class TerminalError` - *Raised when the terminal cannot render the game at all.*
@@ -446,7 +446,7 @@
 ### [`tests/test_aldervale.py`](tests/test_aldervale.py)
 > *Unit tier: fast in-process checks for the pure engine core.*
 
-**Size**: `361` lines (`13012` bytes)
+**Size**: `374` lines (`13336` bytes)
 
 **Classes:**
 - `class FakeTerm`
@@ -494,6 +494,7 @@
   - Method `.test_pack_rgb_clamps_channels()`
   - Method `.test_water_fog_reaches_fog_colour()`
   - Method `.test_terminal_min_width_clamped()`
+  - Method `.test_terminal_uses_large_viewport()`
 - `class TestStoryData` - *The story module is the single source of narrative truth.*
   - Method `.test_cast_entries_are_complete()`
   - Method `.test_gate_guards_are_the_twins()`
@@ -508,7 +509,7 @@
 ### [`tests/test_integration.py`](tests/test_integration.py)
 > *Integration tier: world generation, quest chain, rendering and the CLI.*
 
-**Size**: `560` lines (`19153` bytes)
+**Size**: `593` lines (`20404` bytes)
 
 **Classes:**
 - `class TestTerrain`
@@ -572,6 +573,9 @@
   - Method `.queue_press(keys)`
   - Method `.poll()`
   - Method `.size()`
+- `class TestTitleFlow` - *Starting a new game from the title screen through the poll path.*
+  - Method `.test_new_game_starts_from_title()`
+  - Method `.test_continue_without_save_starts_world()`
 
 **Functions:**
 - `def _tiny_atlas()`

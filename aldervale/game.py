@@ -72,8 +72,8 @@ class Game:
     def _open_screen(self):
         if self.term is not None:
             tw, th = self.term.size()
-            self.w = min(max(tw, 40), 190)
-            self.h = min(max(th - 1, 20), 78)
+            self.w = min(max(tw, 40), 260)
+            self.h = min(max(th - 1, 20), 110)
         self.screen = Screen(self.w, self.h, color=self.color)
         self._term_size = (self.w, self.h)
         self.cam = None
@@ -162,8 +162,8 @@ class Game:
             return
         self._resize_check = 20
         tw, th = self.term.size()
-        nw = min(max(tw, 40), 190)
-        nh = min(max(th - 1, 20), 78)
+        nw = min(max(tw, 40), 260)
+        nh = min(max(th - 1, 20), 110)
         if (nw, nh) != self._term_size:
             self.w, self.h = nw, nh
             self._open_screen()

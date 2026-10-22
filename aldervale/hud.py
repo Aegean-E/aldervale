@@ -297,7 +297,7 @@ def draw_help(screen):
 
 
 def draw_title(screen, world, cam, env, menu_sel, has_save):
-    render_note = "shrink your terminal font (Ctrl+Minus) for finest detail"
+    render_note = "maximize the window and shrink the font (Ctrl+Minus) for finer detail"
     for i, line in enumerate(TITLE_LOGO):
         screen.text_centered(6 + i, line, GOLD if i < 3 else ORANGE)
     screen.text_centered(12, "A tale of steel and starlight, told in ASCII",

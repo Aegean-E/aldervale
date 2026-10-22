@@ -451,6 +451,8 @@ class TestLaunchers(unittest.TestCase):
                          "trailing backslash escapes the quote and wt "
                          "swallows the whole command line as -d")
         self.assertIn('-d "%CD%"', content)
+        self.assertIn("-w -1 --maximized", content,
+                      "the game should open a dedicated maximized window")
 
     def test_vscode_launch_configs(self):
         with open(os.path.join(PROJECT, ".vscode", "launch.json"),
@@ -554,6 +556,37 @@ class FakePollTerm:
 
     def size(self):
         return (80, 40)
+
+
+class TestTitleFlow(unittest.TestCase):
+    """Starting a new game from the title screen through the poll path."""
+
+    def test_new_game_starts_from_title(self):
+        g = Game(seed=3, terrain_size=SMALL, width=80, height=40)
+        g.term = FakePollTerm()
+        g.atlas = _tiny_atlas()
+        g.world = World(3, g.atlas, terrain_size=SMALL)
+        g._open_screen()
+        g._ensure_camera()
+        g.state = "title"
+        g.term.queue_press(["n"])
+        g._handle_keys()
+        self.assertEqual(g.state, "play")
+        self.assertIsNotNone(g.world.player)
+
+    def test_continue_without_save_starts_world(self):
+        g = Game(seed=3, terrain_size=SMALL, width=80, height=40,
+                 save_path=os.path.join(tempfile.gettempdir(),
+                                        "av_no_such_save.json"))
+        g.term = FakePollTerm()
+        g.atlas = _tiny_atlas()
+        g.world = World(3, g.atlas, terrain_size=SMALL)
+        g._open_screen()
+        g._ensure_camera()
+        g.state = "title"
+        g.term.queue_press(["c"])
+        g._handle_keys()
+        self.assertEqual(g.state, "play")
 
 
 if __name__ == "__main__":

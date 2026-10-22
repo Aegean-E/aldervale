@@ -10,8 +10,10 @@ Standard library only; no dependencies, no assets, no build step.
 
 - **Runtime Prerequisites**: Python 3.10 or newer (standard library only) and a
   dark-theme terminal that supports 24-bit colour (Windows Terminal, Terminal.app
-  or any modern xterm). Zoom the font out (Ctrl+Minus) until characters are tiny
-  - the smaller the glyphs, the more the screen reads as pixel art.
+  or any modern xterm). PLAY.bat opens a dedicated maximized Windows Terminal
+  window, and the renderer scales with the window up to 260x110 cells - a bigger
+  window or a smaller font (Ctrl+Minus) buys more detail, and at tiny glyphs the
+  screen reads as pixel art.
 - **Canonical Regression Shield Gate**:
   ```bash
   python -m unittest discover

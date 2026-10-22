@@ -40,47 +40,47 @@ MODEL_SPECS = {
         "atk1": {"arm_r": 0.95, "sword": 0.5, "lean": 0.3, "leg_l": 0.5, "leg_r": -0.35, "arm_l": -0.4},
         "atk2": {"arm_r": 0.35, "sword": 0.2, "lean": 0.12, "arm_l": -0.2},
         "dead": {"dead": 1.0},
-    }, size=(1.5, 2.1), height=1.95, cells=24),
-    "guard": _spec(models.guard, {"idle": {}}, size=(1.5, 2.3), height=2.05, cells=24),
+    }, size=(1.5, 2.1), height=1.95, cells=30),
+    "guard": _spec(models.guard, {"idle": {}}, size=(1.5, 2.3), height=2.05, cells=30),
     "wolf": _spec(models.wolf, {
         "idle": {},
         "walk0": WOLF_WALK[0], "walk1": WOLF_WALK[1],
         "atk": {"lunge": 1.0}, "dead": {"dead": 1.0},
-    }, size=(1.1, 1.1), height=1.0, cells=26),
+    }, size=(1.1, 1.1), height=1.0, cells=30),
     "skeleton": _spec(models.skeleton, {
         "idle": {},
         "walk0": WALK[0], "walk1": WALK[1],
         "atk": {"arm_r": -2.0, "sword": 0.45, "lean": -0.12, "arm_l": 0.4},
         "dead": {"dead": 1.0},
-    }, size=(1.4, 2.0), height=1.9, cells=24),
+    }, size=(1.4, 2.0), height=1.9, cells=30),
     "captain": _spec(models.skeleton, {
         "idle": {}, "walk0": WALK[0], "walk1": WALK[1],
         "atk": {"arm_r": -2.1, "sword": 0.5, "lean": -0.15, "arm_l": 0.5},
         "dead": {"dead": 1.0},
-    }, size=(1.9, 2.7), height=2.6, cells=24, kwargs={"captain": True}),
+    }, size=(1.9, 2.7), height=2.6, cells=30, kwargs={"captain": True}),
     "bandit": _spec(models.bandit, {
         "idle": {},
         "walk0": WALK[0], "walk1": WALK[1],
         "atk": {"arm_r": -1.7, "sword": 0.55, "lean": 0.22, "arm_l": -0.3},
         "dead": {"dead": 1.0},
-    }, size=(1.4, 1.95), height=1.85, cells=24),
+    }, size=(1.4, 1.95), height=1.85, cells=30),
     "elder": _spec(models.villager, {
         "idle": {}, "walk0": {"leg_l": 0.3, "lean": 0.05},
         "walk1": {"leg_l": -0.3, "lean": -0.05},
-    }, size=(1.2, 1.95), height=1.9, cells=24, kwargs={"role": "elder"}),
+    }, size=(1.2, 1.95), height=1.9, cells=28, kwargs={"role": "elder"}),
     "smith": _spec(models.villager, {
         "idle": {}, "walk0": {"leg_l": 0.3, "lean": 0.05},
         "walk1": {"leg_l": -0.3, "lean": -0.05},
-    }, size=(1.2, 1.9), height=1.85, cells=24, kwargs={"role": "smith"}),
+    }, size=(1.2, 1.9), height=1.85, cells=28, kwargs={"role": "smith"}),
     "peasant0": _spec(models.villager, {
         "idle": {}, "walk0": WALK[0], "walk1": WALK[1],
-    }, size=(1.3, 1.9), height=1.8, cells=24, kwargs={"variant": 0}),
+    }, size=(1.3, 1.9), height=1.8, cells=28, kwargs={"variant": 0}),
     "peasant1": _spec(models.villager, {
         "idle": {}, "walk0": WALK[0], "walk1": WALK[1],
-    }, size=(1.3, 1.9), height=1.8, cells=24, kwargs={"variant": 1}),
+    }, size=(1.3, 1.9), height=1.8, cells=28, kwargs={"variant": 1}),
     "peasant2": _spec(models.villager, {
         "idle": {}, "walk0": WALK[0], "walk1": WALK[1],
-    }, size=(1.3, 1.9), height=1.8, cells=24, kwargs={"variant": 2}),
+    }, size=(1.3, 1.9), height=1.8, cells=28, kwargs={"variant": 2}),
     "chicken": _spec(models.chicken, {
         "idle": {}, "walk0": {"leg": 0.6}, "walk1": {"leg": -0.6},
         "peck": {"peck": 1.0},
