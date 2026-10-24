@@ -1,5 +1,7 @@
 # aldervale
 
+[![AIKit Integrated](https://img.shields.io/badge/AIKit-integrated-6f42c1)](https://github.com/Aegean-E/AIKit)
+
 ALDERVALE - a 2.5D medieval RPG rendered entirely in tiny ASCII cells. Low-poly
 3D models (knights, wolves, a walled castle) are baked into shaded character
 sprites, marched over a voxel heightfield with fog, day/night light and water,
